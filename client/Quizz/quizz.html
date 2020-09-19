@@ -1,0 +1,153 @@
+<template id="quizz" name="quizz">
+      <!-- <html>
+            <head> -->
+            <title class="ui header">QCM</title>
+
+            <!-- </head> -->
+            <!-- <body> -->
+
+            <form name="form_qz" class="ui form">
+              <div class="two wide fields">
+                <div class=" field">
+                  <p><label for="">1) Le colvert est :</label>
+                  <br><input type="radio" class="form-control" name="choix_rep_0" value="1">un canard
+
+                  <br><input type="radio" class="form-control" name="choix_rep_0" value="0">un coq
+
+                  <br><input type="radio" class="form-control" name="choix_rep_0" value="0">un perroquet
+                  </p>
+                </div>
+
+
+                <div class="field">
+                  <p><label for="">2) Le petit-gris est:</label>
+                  <br><input type="radio" class="form-control" name="choix_rep_1" value="0">un rat
+
+                  <br><input type="radio" class="form-control" name="choix_rep_1" value="0">un chat
+
+                  <br><input type="radio" class="form-control" name="choix_rep_1" value="1">un escargot
+                  </p>
+                </div>
+              </div>
+              <div class="two wide fields">
+                <div class="field">
+                  <p><label for="">3) Quel est le nom du poisson surnommé le "cheval de mer"?</label>
+                  <br><input type="radio" class="form-control" name="choix_rep_2" value="0">Le dauphin
+
+                  <br><input type="radio" class="form-control" name="choix_rep_2" value="1">L'hippocampe
+
+                  <br><input type="radio" class="form-control" name="choix_rep_2" value="0">L'espadon
+                  </p>
+                </div>
+
+                <div class="field">
+                  <p><label for="">4) Quelle est la capitale de l'Italie?</label>
+                  <br><input type="radio" class="form-control" name="choix_rep_3" value="0">Venise
+
+                  <br><input type="radio" class="form-control" name="choix_rep_3" value="0">Milan
+
+                  <br><input type="radio" class="form-control" name="choix_rep_3" value="1">Rome
+                  </p>
+                </div>
+
+              </div>
+              <div class="two wide fields">
+                <div class="field">
+                  <p><label for="">5) Quelle est la capitale de la Chine?</label>
+                  <br><input type="radio" class="form-control" name="choix_rep_5" value="1">Pékin
+
+                  <br><input type="radio" class="form-control" name="choix_rep_5" value="0">Hongkong
+
+                  <br><input type="radio" class="form-control" name="choix_rep_5" value="0">Shanghaï
+                  </p>
+                </div>
+
+                <div class="field">
+                  <p><label for="">6) Quelle pâtisserie mange-t-on le plus souvent à Noël en France?</label>
+
+                  <br><input type="radio" class="form-control" name="choix_rep_6" value="0">La galette des rois
+
+                  <br><input type="radio" class="form-control" name="choix_rep_6" value="1">La bûche de Noël
+
+                  <br><input type="radio" class="form-control" name="choix_rep_6" value="0">La religieuse
+                  </p>
+                </div>
+              </div>
+              <div class="two wide fields">
+                <div class="field">
+                  <p><label for="">7) Quelle est la capitale de l'Espagne?</label>
+                  <br><input type="radio" class="form-control" name="choix_rep_4" value="1">Madrid
+
+                  <br><input type="radio" class="form-control" name="choix_rep_4" value="0">Tolède
+
+                  <br><input type="radio" class="form-control" name="choix_rep_4" value="0">Barcelone
+                  </p>
+                </div>
+                <div class="field">
+                  <p><label for="">8) Est-ce que l'été est suivi immédiatement par le printemps?</label>
+                  <br><input type="radio" class="form-control" name="choix_rep_7" value="1">Non
+
+                  <br><input type="radio" class="form-control" name="choix_rep_7" value="0">Oui
+                  </p>
+                </div>
+              </div>
+              <div class="two wide fields">
+                <div class="field">
+                  <p><label for="">9) Est-ce que le sel a un goût sucré?</label>
+                  <br><input type="radio" class="form-control" name="choix_rep_8" value="1">Non
+
+                  <br><input type="radio" class="form-control" name="choix_rep_8" value="0">Oui
+                  </p>
+                </div>
+
+                <div class="field">
+                  <p><label for="">10) Les pommes sont-elles toujours vertes?</label>
+
+                  <br><input type="radio" class="form-control" name="choix_rep_9" value="0">Oui
+
+                  <br><input type="radio" class="form-control" name="choix_rep_9" value="1">Non
+                  </p>
+                </div>
+              </div>
+              <div class="ui segment field">
+                <div class="field">
+                  <p><label for="resultat">le nombre de réponses correctes est :</label><br>
+                  <input type="button" class="form-control ui button btn-primary" name="btnAfficher" value="afficher le reslultat" onclick="calcul();">
+                  <br><input type="text" class="form-control" name="txtNb" id="resultat">
+                  </p>
+                </div>
+              </div>
+
+            </form>
+
+            <!-- </body>
+
+            </html>  -->
+
+  <script language="javascript">
+
+  function calcul()
+  {
+     nombreDeQuestion=10;
+     nom=new Array();
+     nomLength=new Array();
+     point=0;
+     for(n=0;n<=(nombreDeQuestion-1);n++)
+     {
+        nom[n]=document.getElementsByName("choix_rep_"+n);
+        nomLength[n]=nom[n].length;
+        for(q=0;q<=(nomLength[n]-1);q++)
+        {
+          if(nom[n][q].checked==true)
+          {point=point+eval(nom[n][q].value);}
+          else
+          {point=point;}
+
+        }
+     }
+     document.form_qz.txtNb.value=point;
+  }
+
+
+  </script>
+</template>

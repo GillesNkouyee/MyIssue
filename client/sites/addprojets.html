@@ -1,0 +1,30 @@
+<template name ="addProjet">
+      <div class="container">
+
+          <div class="ui form ">
+
+              {{#autoForm collection="Projets" id="projetform"  type="insert"  method="addProjet"
+               omitFields="createdBy, lastUpdate, createdAt" resetOnSuccess=true}}
+
+                        <div class="ui  two wide stackable fields">
+                          <div class="ui field">
+                            {{> afQuickField name='acronyme'}}
+                          </div>
+                          <div class=" ui eight field">
+                            {{> afQuickField name='client'}}
+                          </div>
+                        </div>
+                        <div class=" field">
+                          {{> afQuickField name='description'}}
+                        </div>
+
+                      <div class="ui segment">
+                        <input type="submit" class="ui button primary basic" value="Insert"/>
+                      </div>
+
+                {{/autoForm}}
+
+          </div>
+        </div>
+
+  </template>

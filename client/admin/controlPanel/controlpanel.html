@@ -1,0 +1,39 @@
+<template id="userCtrlpanel" name="userCtrlpanel">
+<!-- <div class="container  "> -->
+  <div class="app-page-title "><h4>Panneau de configuration</h4>
+  </div>
+
+  <div class="ui divider"></div>
+  <section>
+  <div class="row">
+  <div class="col-12">
+  <div class="card  tab-card">
+    <div class="card-header tab-card-header">
+      <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a  id="one-tab" data-toggle="tab" href="#one" role="tab" aria-controls="One" aria-selected="true"><i class="list icon"></i>User list</a>
+        </li>
+        <li class="nav-item">
+            <a  id="two-tab" data-toggle="tab" href="#two" role="tab" aria-controls="Two" aria-selected="false"><span class="glyphicon glyphicon-cog"></span>User management</a>
+        </li>
+        <li class="nav-item">
+            <a  id="three-tab" data-toggle="tab" href="#three" role="tab" aria-controls="Three" aria-selected="false"><i class="plus icon"></i>New User</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">{{> userlist}}
+      </div>
+
+    <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">{{> users}}
+
+    </div>
+    <div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">{{> register}}
+    </div>
+    </div>
+    </div>
+  </div>
+  </div>
+  </section>
+</template>

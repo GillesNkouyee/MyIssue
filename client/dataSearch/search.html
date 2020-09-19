@@ -1,0 +1,122 @@
+<template name="searchIncident">
+  <!-- <div class="ui container"> -->
+
+
+    <div class="app-page-title">
+      <h4 >Tickets listing</h4>
+    </div>
+    <div class="ui divider"></div>
+    <section>
+        <div class="ui fluid icon input form">
+          <input type="search" class="form-control"  placeholder="{{getGlobal 'searchinputslogan'}}" id="search" value="{{search}}">
+          <i class="inverted circular search link icon"></i>
+
+        </div>
+
+        <br>
+          {{#if search}}
+          <div class="search-results">
+            <!-- <div class="small header"><h3>{{resultnber}}{{search}} &nbsp; {{pluralize search result}} pour cette recherche...</h3></div> -->
+            <div class="small header"><h3>{{results.length}}&nbsp; résultats pour cette recherche...</h3></div>
+            <div class="ui cards four wide field grid ">
+            {{#each searchResults}}
+
+              <div class="card">
+
+                        <div class="content">
+                          <h4 class="nav-link">{{projetImpacte}}</h4>
+                          <hr>
+
+                          <div class="content">
+                              <h4 class="ui sub header">Titre : {{title}}<a class="summary">{{goodDateformat startTime}}</a></h4>
+                          </div>
+                        </div>
+                        <div class="extra content">
+                          <div class="center aligned author">
+                            <h4 class="ui sub header">Tickets N°</h4><a href="#">{{tickets.[0].Id1}}-{{tickets.[0].Id2}}</a>
+                          </div>
+                        </div>
+                        <div class="ui right content">
+                          <button type="button" class="btn btn-block" data-toggle="modal"   data-target="#details{{this._id}}">
+                            <img src="/issue.png" class="img-circle"  width=20  height=20 alt="">
+                          </button>
+                        </div>
+                      </div>
+                      <div class="modal fade" id="details{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Details sur l'incident </h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <table>
+                                              <tr>
+                                                <th style="background-color:#eee ;">
+                                                  Flash Info : Incident
+                                                </th>
+                                                <td width="600">
+                                                  <table width="100%" style="border: 1px solid #eee;">
+
+                                                      <tr>
+                                                        <th style="text-align: left; padding: 10px; border-bottom: 1px solid #eee; border-right: 1px solid #eee;">Titre</th>
+                                                        <td style="text-align: left; padding: 10px; border-bottom: 1px solid #eee;">{{title}}</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th style="text-align: left; padding: 10px; border-bottom: 1px solid #eee; border-right: 1px solid #eee;">Client & Projet</th>
+                                                        <td style="text-align: left; padding: 10px; border-bottom: 1px solid #eee;">{{client}} - {{projetImpacte}}</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th style="text-align: left; padding: 10px; border-bottom: 1px solid #eee; border-right: 1px solid #eee;">Impact Business</th>
+                                                        <td style="text-align: left; padding: 10px;border-bottom: 1px solid #eee;">{{description}}</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th style="text-align: left; padding: 10px; border-bottom: 1px solid #eee; border-right: 1px solid #eee;">Solution</th>
+                                                        <td style="text-align: left; padding: 10px;border-bottom: 1px solid #eee;">{{Solution}}</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th style="text-align: left; padding: 10px;
+                                                        border-bottom: 1px solid #eee;border-right: 1px solid #eee;">Date</th>
+                                                        <td style="text-align: left; padding: 10px; ">{{humanReadableDate startTime}}</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th style="text-align: left; padding: 10px;border-top: 1px solid;
+                                                        border-bottom: 1px solid #eee;border-right: 1px solid #eee;">Durée</th>
+                                                        <td style="text-align: left; padding: 10px; ">{{rangetime}} (hrs)</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th style="text-align: left; padding: 10px; border-top: 1px solid #eee; border-right: 1px solid #eee;">Nbre d'agents</th><td style="text-align: left; padding: 10px; border-top: 1px solid #eee; border-right: 1px solid #eee;">{{nbreagents}}</td>
+                                                      </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                          </div>
+
+            {{/each}}
+            </div>
+        </div>
+        {{else}}
+
+          <div class="ui container" style="text-align:center">
+            <h2 class="disabled header">No result request pending...</h2>
+              <br>
+            <p style="text-align:center"><img src="/issue.png"  alt="MyIssue" width="50px" height="50px" class="img-circle"></p>
+            <!-- <h5 class=" huge disabled header" style="text-align:center">Démarrez la recherche en saisissant un client, un projet, ou un titre d'incident...</h5> -->
+          </div>
+
+        {{/if}}
+
+      </section>
+
+      <!-- </div> -->
+</template>

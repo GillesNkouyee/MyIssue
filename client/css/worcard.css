@@ -1,0 +1,88 @@
+/* box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+} */
+.statistics {
+  margin-top: 25px;
+  color: #CCC;
+}
+.statistics .box {
+  background-color: #313348;
+  padding: 15px;
+  overflow: hidden;
+}
+.statistics .box > i {
+  float: left;
+  color: #FFF;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 22px;
+}
+.statistics .box .info {
+  float: left;
+  width: auto;
+  margin-left: 10px;
+}
+.statistics .box .info h3 {
+  margin: 5px 0 5px;
+  display: inline-block;
+}
+.statistics .box .info p {color:#BBB}
+
+/* End statistics */
+.workcard {
+margin-top: 10px;
+box-sizing: border-box;
+border-radius: 2px;
+background-clip: padding-box;
+}
+.workcard span.card-title {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.workcard .card-image {
+position: relative;
+overflow: hidden;
+}
+.workcard .card-image img {
+border-radius: 2px 2px 0 0;
+background-clip: padding-box;
+position: relative;
+z-index: -1;
+}
+.workcard .card-image span.card-title {
+position: absolute;
+bottom: 0;
+left: 0;
+padding: 16px;
+}
+.workcard .card-content {
+padding: 16px;
+border-radius: 0 0 2px 2px;
+background-clip: padding-box;
+box-sizing: border-box;
+}
+.workcard .card-content p {
+margin: 0;
+color: inherit;
+}
+.workcard .card-content span.card-title {
+line-height: 48px;
+}
+.workcard .card-action {
+border-top: 1px solid rgba(160, 160, 160, 0.2);
+padding: 16px;
+}
+.workcard .card-action a {
+color: #ffab40;
+margin-right: 16px;
+transition: color 0.3s ease;
+text-transform: uppercase;
+}
+.card .card-action a:hover {
+color: #ffd8a6;
+text-decoration: none;
+}

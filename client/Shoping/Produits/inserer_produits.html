@@ -1,0 +1,29 @@
+<template name="cProduit" xmlns="http://www.w3.org/1999/html">
+    <div class="well well-lg">
+        <h2>Inserer un nouveau produit</h2>
+    <form role="form">
+        <div class="form-group">
+        <label for="produit">Nom du produit :</label>
+            <input type="text" class="form-control" name="produit" placeholder="Nom du produit"/>
+        </div>
+        <div class="form-group">
+            <label for="gamme">Gamme de produit : </label>
+            <select class="form-control" name="gamme">
+                <option value="Manyanga">Manyanga</option>
+                <option value="Huile">Beurre/Huile</option>
+                <option value="Miel">Miel</option>
+                <option value="Confiture">Confiture</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="quantite">Quantité</label>
+            <input type="text" class="form-control" name="quantite" placeholder="Quantité"/>
+        </div>
+        <div class="form-group">
+            <label for="prix">Prix</label>
+            <input type="text" class="form-control" name="prix" placeholder="Prix"/>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Ajouter">
+    </form>
+    </div>
+</template>

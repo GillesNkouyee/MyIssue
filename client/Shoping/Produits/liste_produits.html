@@ -1,0 +1,24 @@
+<template name="rProduit">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Produit</th>
+            <th>Gamme</th>
+            <th>Quantité</th>
+            <th>Prix Unitaire</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+    {{#each product}}
+        <tr>
+            <td>{{doc.produit}}</td>
+            <td>{{doc.gamme}}</td>
+            <td>{{doc.quantite}}</td>
+            <td>{{doc.prix}}</td>
+            <td>{{doc.total}}</td>
+        </tr>
+    {{/each}}
+        </tbody>
+    </table>
+</template>

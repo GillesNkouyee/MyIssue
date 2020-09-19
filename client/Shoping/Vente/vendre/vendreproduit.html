@@ -1,0 +1,65 @@
+<template name="vente">
+
+    <div class="text-center well well-lg">
+        <h2>Enregistrer une vente</h2>
+        <table class="table-hover">
+            <form id="vendre">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            <tr>{{>formVente}}</tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            <td align="right"><input type="submit" value="Vendre"> </td>
+            </tr>
+
+            </tbody>
+            </form>
+        </table>
+
+        <h2>Historique de ventes</h2>
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+            <th class="text-center">Gamme</th>
+            <th class="text-center">Produit</th>
+            <th class="text-center">Quantité</th>
+            <th class="text-center">Prix</th>
+            <th class="text-center">Total</th>
+            <th class="text-center">Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each vendu}}
+            <tr>
+            <td>{{gamme}}</td>
+            <td>{{produit}}</td>
+            <td>{{quantite}}</td>
+            <td>{{prix}}</td>
+            <td>{{total}}</td>
+            <td>{{date}}</td>
+            </tr>
+            {{/each}}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total</td>
+                <td><input type="text" class="form-control" value="{{newTotal}}" onfocus="this.blur()"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <canvas id="myChart4" width="400" height="400"></canvas>
+    </div>
+</template>

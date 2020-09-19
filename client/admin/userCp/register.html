@@ -1,0 +1,129 @@
+<template name="register">
+<div class="ui container" >
+  <div class="wrapper fadeInDown"  style="text-align:center">
+      <div id="formContent" style="text-align:center">
+        <div class="logo fadeIn first">
+          <img src="/logo-intelcia-vector.jpg" alt="MyIssue icon"  id="icon"/>
+
+        </div>
+            <form class="ui form" id="regform">
+              <!-- <div class="col-lg-12 col-md-9 col-sm-6">
+                  <h4>Créer nouveau compte</h4>
+              </div> -->
+              <div class=" col-lg-12 col-md-12 col-sm-12">
+               <!-- <label for = "login">Login</label> -->
+              <input  type="text" name="regLogin" class="form-control" id="regLogin" placeholder="Insert your mtcle " required>
+              </div><br><br>
+               <div class=" col-lg-12 col-md-12 col-sm-12">
+                <!-- <label for = "regname">username</label> -->
+               <input  type="text" name="regname" class="form-control" id="regname" placeholder="Insert your login " required>
+               </div><br><br>
+               <div class=" col-lg-12 col-md-12 col-sm-12" style="text-align:center">
+                <!-- <label for = "email">Email</label> -->
+                <input type="email" name="regEmail" id="regEmail" class="form-control" placeholder="Insert your email " required>
+                </div><br><br>
+               <div class="col-lg-12 col-md-12 col-sm-12" style="text-align:center">
+                <!-- <label for = "password">Password</label> -->
+                <input type="text" name="regPassword" id="regPassword" class="form-control" required>
+               </div>
+
+               <div class="col-lg-12 col-md-12 col-sm-12">
+                <input type="submit" value="Register" class=" btn btn-xs btn-primary" ></div>
+                <!-- <input type="submit" class="fadeIn fourth" value="Register">
+               </div> -->
+
+            </form>
+    </div>
+    <div class="row forGotPassword">
+        <br>
+        <p>
+
+        </p>
+
+    </div>
+
+  </div>
+</div>
+
+</template>
+
+<!-- <template name="register">
+
+    <div class="container text-center">
+          <div class="row  well">
+            <div class="col-xs-12  " style=" padding: 18px 18px 20px; border-radius: 7px; font-family: 'Open Sans', sans-serif; ">
+
+                <div class="col-xs-12 " style="border-radius:4px; background-color:#F0F3F4">
+                  <h1 style="color:#72797C  ; padding: 18px 18px 20px; border-radius: 7px; font-family: 'Open Sans', sans-serif;">
+                    Enregistrement / Sign Up</h1>
+                </div>
+                <div class="col-xs-12 text-center">
+                  <form class="form-horizontal" id="registerform">
+                    <fieldset class="requiredinfo">
+                      <legend style="color:#A6D6EE;">Informations Obligatoires</legend>
+                      <div class="form-group">
+                       <label for = "regUsername">username</label>
+                      <input  type="text" name="regUsername" class="form-control" id="regUsername" onfocus="this.blur()">
+                      </div>
+                      <div class="form-group">
+                       <label for = "email">Email</label>
+                       <input type="email" name="regEmail" id="regEmail" class="form-control" onfocus="this.blur()">
+                       </div>
+                      <div class="form-group">
+                       <label for = "password">Password</label>
+                       <input type="password" name="regPassword" id="regPassword" class="form-control" onfocus="this.blur()">
+                      </div>
+                    </fieldset>
+
+                    <fieldset class="optionalinfo">
+                      <legend style="color:#A6D6EE;">Informations facultatives</legend>
+                        <div class="form-group">
+                            <label for = "regUsername">username</label>
+                            <input  type="text" name="regUsername" class="form-control" id="regUsername" onfocus="this.blur()">
+                        </div>
+                        <div class="form-group">
+                             <label for = "email">Email</label>
+                             <input type="email" name="regEmail" id="regEmail" class="form-control" onfocus="this.blur()">
+                         </div>
+                        <div class="form-group">
+                             <label for = "password">Password</label>
+                             <input type="password" name="regPassword" id="regPassword" class="form-control" onfocus="this.blur()">
+                        </div>
+                  </fieldset>
+                     <div class="form-group">
+                      <input type="submit" value="Register" class="form-control btn-raised btn btn-success" >
+                     </div>
+                  </form>
+                </div>
+
+        </div>
+      </div>
+    </div>
+</template> -->
+<!-- <template name="register">
+  <h1 class="text-align:center">Enregistrement</h1>
+  {{#autoForm collection="Meteor.users" id="insertUser"}}
+      <fieldset>
+          <legend>Informations Obligatoires</legend>
+          {{> afQuiField name="username"}}
+          {{> afQuiField name="password"}}
+          {{> afQuiField name="confirmation"}}
+          {{> afQuiField name="emails"}}
+      </fieldset>
+      <fieldset>
+          <legend>Informations facultatives</legend>
+          {{> afQuiField name="profile.name"}}
+          {{> afQuiField name="profile.lastname"}}
+          {{> afQuiField name="profile.birthday"}}
+          {{> afQuiField name="profile.gender"}}
+          {{> afQuiField name="profile.avatar_url"}}
+          {{> afQuiField name="profile.organization"}}
+          {{> afQuiField name="profile.occupation"}}
+          {{> afQuiField name="profile.mobile"}}
+          {{> afQuiField name="profile.website"}}
+          {{> afQuiField name="profile.status"}}
+          {{> afQuiField name="profile.bio"}}
+      </fieldset>
+      <button type="submit" class="btn btn-primary">Valider</button>
+      {{/autoForm}}
+</template> -->

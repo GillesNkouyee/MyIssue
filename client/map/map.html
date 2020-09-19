@@ -1,0 +1,62 @@
+<template name="map">
+
+		<div class="ui form segment">
+		<!-- <button id="btn_new" class="ui button btn-sm btn-default"  type="button" data-toggle="collapse" href="#collapseOne"
+		 aria-controls="collapseOne">
+                    <span class="glyphicon glyphicon-pencil pull-left" id="brand"></span>
+            </button>
+			<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="catCreation"> -->
+					<div class="four  fields">
+						<a id="demo" class="ui cyan ribbon label right"></a>
+						<div class="four wide field">
+							  <label for='Filter'>Afficher par Groupe</label>
+
+										<select id="type" name="filtermarker" class="button btn-checkbox">
+										    <option value="">Please select category</option>											
+												<option  value="Center">Center</option>
+				                <option  value="East">East</option>
+				                <option  value="Litoral">Litoral</option>
+				                <option  value="North">North</option>
+				                <option  value="NorthWest">NorthWest</option>
+				                <option  value="South">South</option>
+				                <option  value="SouthWest">SouthWest</option>
+				                <option  value="West">West</option>
+
+										</select>
+
+						</div>
+						<div class="four wide field" >
+							<label for='Filter'>Show coordinates</label>
+							<div class="four wide field">
+								<button onclick="getLocation()" class="ui  btn info"><i class="tag icon"></i></button>
+
+							</div>
+						</div>
+						</div>
+
+								 {{#unless geolocationError}}
+								<div class="map-canvas" id="map-canvas">
+									{{> googleMap name="centraleMap" options=exampleMapOptions}}
+							</div>
+									{{else}}
+									 Geolocation failed: {{geolocationError}}
+								{{/unless}}
+				</div>
+			<!-- </div> -->
+<script type="text/javascript">
+var x = document.getElementById("demo");
+
+function getLocation() {
+		if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+		} else {
+				x.innerHTML = "Geolocation is not supported by this browser.";
+		}
+}
+
+function showPosition(position) {
+		x.innerHTML = "Latitude: " + position.coords.latitude +
+		"<br>Longitude: " + position.coords.longitude;
+}
+</script>
+</template>

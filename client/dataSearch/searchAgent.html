@@ -1,0 +1,110 @@
+<template name="searchagents">
+  <div class="ui container">
+
+
+    <div class="loginbox center aligned" style="border-radius:2px; align:center">
+      <h2 style="color:#ccc; border-radius: 3px; font-family: 'Open Sans', sans-serif; "></h2>
+           <img src="/mydir.png"  alt="MyDirectory" class="img-responsive">
+      </div>
+        <!--linebreaker-->
+
+        <!--  -->
+        <div class="ui equal width center aligned padded grid">
+
+                  <div class="row">
+                    <div class=" column">
+                      <form class="ui form" id="search" action="resultats.html" method="post">
+
+                            <input type="text" class="form-control" id="searchValue" name="searchValue" placeholder="{{getGlobal 'searchinputslogan'}}">
+                              <br>
+                                  <!-- {{#linkTo route='searchresults'}}{{/linkTo}} -->
+                                  <button id="searchBtn" type="submit" class="ui button btn-outline-rounded success" onClick="testResults(this.form)">
+                                      <i class="search icon"></i>Search
+                                  </button>
+                      </form>
+                    <!-- <div class="ui divider "></div> -->
+                  </div>
+                  </div>
+
+
+                <div class="row">
+                    <div class="black column">
+                      <h4 style="color:#fff;font-family: 'Open Sans', sans-serif; ">
+                        Exemples : C01007...</h4>
+                  </div>
+                  <div class="pink column  header leresultat " id="leresultat">
+                    <h4 style="color:#fff; height:12px; font-family: 'Open Sans', sans-serif; ">
+                      ...Resultats de la recherche</h4>
+                  </div>
+                </div>
+
+        </div>
+        <!--  -->
+
+    <div class="ui equal width center aligned padded grid" >
+
+    <div class="row">
+
+
+      <div class="ui form column" >
+          <input type="search" class="form-control" id="input-search" placeholder="Filtrez vos résultats..." >
+      </div>
+
+      <div class="searchable-container col-xs-12" id="searchmedocitem" style="background-image:url()">
+          {{#each mesagents}}
+
+              <div class="ui cards items stackable col-sm-6 col-md-4 center searchmedocbox " >
+                <div class="ui  link card ">
+                      <div class="content">
+                        <div class="center aligned header">{{prenom}}&nbsp; {{nom}}&nbsp;&nbsp;-- {{matricule}}</div>
+                        <div class="ui divider"></div>
+                        <div class="content">
+                            <h4 class="ui sub header">Login Avaya : <a class="summary">{{login}}</a></h4>
+                            <div class="ui small feed">
+
+                              <div class="event">
+                                <div class="content">
+                                  <h4 class="ui sub header">Poste Avaya</h4>
+                                  <div class="summary">
+                                     <a>{{extension_Avaya}}</a>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="event">
+                                <div class="content">
+                                  <h4 class="ui sub header">Direction/Dpt</h4>
+                                  <div class="summary">
+                                     <a>{{direction}}</a> added two pictures
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="extra content">
+                        <div class="center aligned author">
+                          <h4 class="ui sub header">Flotte Nbr</h4><a href="#">{{mobile}}</a>
+                        </div>
+                      </div>
+                    </div>
+              </div>
+          {{/each}}
+
+      </div>
+    </div>
+    </div>
+    </div>
+  <br>
+  <script type="text/javascript">
+  function testResults (form) {
+      var TestVar = form.searchValue.value;
+      if(!TestVar)
+      {
+        toastr.warning ("Veuillez préciser votre recherche svp...");
+      }else{
+        toastr.info ("You want information about: " + TestVar);
+      }
+
+  }
+  </script>
+</template>

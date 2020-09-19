@@ -1,0 +1,34 @@
+<!-- <template name="createIncident">
+  <div class="ui form container">
+    {{> quickForm collection="Incidents" id="CreateIncidentForm" method="addIncident" type="insert" omitFields="createdBy, updatedAt, createdAt" buttonContent="Create"}}
+  </div>
+
+</template> -->
+<template name="confirm">
+  {{#if show}}
+   {{text}}
+   <button class="cancel">cancel</button>
+   <button class="confirm">{{action}}</button>
+ {{/if}}
+</template>
+<template name="accessDenied">
+    <div class="ui segment jumbotron">
+        <h2>Accès refusé</h2>
+        <p>Vous ne pouvez pas accéder à cette page ! Veuillez contacter l'administrateur.</p>
+    </div>
+</template>
+
+<template name="Loading">
+  <div class="ui container" style="text-align:center">
+    <br><br><br><br>
+    <div class="row">
+      <div class="col-md-9 col-sm-6 center spinner center" style="text-align:center">
+
+          {{> spinner}}
+
+      </div>
+    </div>
+
+  </div>
+
+</template>

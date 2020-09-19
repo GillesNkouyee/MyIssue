@@ -1,0 +1,55 @@
+<template name="workrecap">
+  <div class="ui container">
+
+    <div class="ui cards stackable two columns grid" >
+      {{#each listerlesUser}}
+      <div class="card">
+        <div class="ui top attached button" style="background-color:#FF0266">
+          Nbre de CV enregistrés:
+        </div>
+        <div class="content">
+          <div class="header">{{profile.name}}</div>
+          <div class="description">
+            {{roles}} & {{profile.occupation}}
+          </div>
+
+        </div>
+        <div class="ui three bottom attached buttons">
+
+                  <button class="ui  button " onfocus="this.blur()">Jour:
+                  <span class="badge badge-light">{{daylyRhWorkcount}}</span></button>
+                  <button class="ui button grey mdfysite" onfocus="this.blur()" >Mois:
+                  <span class="badge badge-inverse">{{monthlyWorkcount}}</span></button>
+                  <button class="ui button black">Total:
+                  <span class="badge badge-light">{{RhmemberWorkcount}}</span></button>
+
+        </div>
+
+      </div>
+    <!-- <div class="row">
+        Card Projects
+       <div class="col-md-6 col-md-offset-3">
+           <div class="workcard">
+               <div class="card-image">
+                  <img class="img-responsive" src="http://material-design.storage.googleapis.com/publish/v_2/material_ext_publish/0Bx4BSt6jniD7TDlCYzRROE84YWM/materialdesign_introduction.png">
+                   <span class="card-title">Material Cards</span>
+               </div>
+
+               <div class="card-content">
+                   <p>Cards for display in portfolio style material design by Google.</p>
+               </div>
+
+               <div class="card-action">
+                   <a href="#" target="new_blank">Link</a>
+                   <a href="#" target="new_blank">Link</a>
+                   <a href="#" target="new_blank">Link</a>
+                   <a href="#" target="new_blank">Link</a>
+                   <a href="#" target="new_blank">Link</a>
+               </div>
+           </div>
+       </div>-->
+       {{/each}}
+   </div>
+
+  </div>
+</template>

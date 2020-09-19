@@ -1,0 +1,43 @@
+<template name="userlist">
+<div class="floating ui red label">There is {{usercount}}users in system's db</div>
+<div class="container">
+  <div class="card-group  stackable 3 columns grid ">
+    {{#transition in="fadeIn:2000"}}
+    <!-- <div class="card"> -->
+      {{#each   userlistitem}}
+      <div class="row userMain">
+
+          <div class="userBlock ">
+            <h4 class="card-header bg-dark text-white">{{profile.name}}<span>{{#if isCurrentUser _id}}<label class="label label-info">You!</label>{{/if}}</span></h4>
+              <a class="ui pink right ribbon label {{role}}">{{roles}}</a>
+            <div class="float-right small">
+
+
+            </div>
+
+            <div class="card-body">
+                <div class="image float-left user-l">
+                  <img class="img-circle right floated mini ui image" src="{{profile.avatar_url}}" style="width:2cm ; heigth:150px">
+
+                </div>
+              <h4 class="card-title">{{profile.occupation}}</h4>
+                <p class="card-text">
+                  <br>
+                  {{emails.[0].address}}
+                </p>
+                <div class="ui two bottom attached buttons">
+                  <div class="ui blue button"><i class="setting icon"></i>Details</div>
+
+                  <div class="ui black  button eraseusr {{disableIfAdmin _id}}" onfocus="this.blur()" ><i class="trash icon"></i>Supp</div>
+
+                </div>
+            </div>
+            {{#if isInRole 'inactive'}}<label class="label label-large label-warning">inactive User</label>{{/if}}
+          </div>
+      </div>
+      {{/each}}
+  <!-- </div> -->
+    {{/transition}}
+  </div>
+</div>
+</template>

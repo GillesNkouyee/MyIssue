@@ -1,0 +1,288 @@
+<template id="operationview" name="operationview">
+  <div class="container">
+
+    <div class="ui huge header pageTitle"><h2>Opérations</h2></div>
+    <div class="ui divider"></div>
+    <div class="ui inverted segment">
+      <div class="ui inverted secondary stackable pointing menu ">
+        <!-- <a class="item active" data-tab="first">Receptions</a> -->
+        <a class="item active"  data-tab="second">Enregistrement de CV</a>
+        <a class="item" data-tab="third">Listing des CVs</a>
+
+      </div>
+    </div>
+      <div class="ui  tab active" data-tab="second">
+        <div class="ui segment  container ">
+          <div class="ui form ">
+          {{#autoForm collection="Curriculums" id="CVForm" type="insert"  omitFields="createdBy, updatedAt, createdAt"
+                    method="enregistrercv"    resetOnSuccess=true}}
+                  <div class="three wide fields">
+                    <div class="field">
+                      {{> afQuickField name='nom'}}
+                    </div>
+                    <div class="field">
+                    {{> afQuickField name='prenom'}}
+                    </div>
+                    <div class="field">
+                      {{> afQuickField name='birthday' id="birthday"}}
+                    </div>
+                  </div>
+
+
+                    <div class="three wide fields">
+
+                      <div class=" field">
+                        {{> afQuickField name='phone'}}
+                      </div>
+                      <div class="field">
+                        {{> afQuickField name='adress'}}
+                      </div>
+                      <div class=" field">
+                        {{> afQuickField name='cni'}}
+                      </div>
+
+                  </div>
+                  <div class="three wide fields">
+
+                    <div class="field">
+                      {{> afQuickField name='emails'}}
+                    </div>
+                    <div class="field">
+                      {{> afQuickField name='photo'}}
+                    </div>
+                    <div class="field">
+                      {{> afQuickField name='CVScan'}}
+                    </div>
+                  </div>
+                  <div class="three wide fields">
+                    <div class="field">
+                      {{> afQuickField name='CvType'}}
+                    </div>
+                    <div class="field">
+                      {{> afQuickField name='formation'}}
+                    </div>
+                    <div class="field">
+                      {{> afQuickField name='statut'}}
+                    </div>
+
+                  </div>
+                  <div class="ui field">
+                    <div class="field">
+                      {{> afQuickField name='experienceProf'}}
+                    </div>
+                  </div>
+                  <div class="ui segment field">
+                    <div class="field">
+                      <input type="submit" class="ui button primary submit" value="Insert"/>
+                    </div>
+                  </div>
+            {{/autoForm}}
+          </div>
+          
+      </div>
+
+
+      </div>
+
+      <div class="ui bottom-attached tab t" data-tab="third">
+        <div class="ui divider"></div>
+        <div class="ui secondary pointing menu">
+          <a class="item active"  data-tab="first">CVs Complets</a>
+          <a  class="item" data-tab="subsecond">CVs Database</a>
+        </div>
+
+        <div class="ui  tab active" data-tab="first">
+
+          <div class="ui container">
+          <div class="ui form">
+            <div class="four fields">
+              <!-- <div class="ui field">
+                 <label>Pick a date</label>
+                <input class="form-control " type="text"  name="dateinsertion" value=""  id="dateinsertion" placeholder="pick a date">
+              </div> -->
+              <div class="ui fluid icon input form field">
+                <input name="nomCandidat" id="nom" class="form-control" type="text" placeholder="saisir nom...">
+                <i class="search icon"></i>
+              </div>
+              <div class="ui fluid icon input form field">
+                <input name="prenomCandidat" id="prenom" class="form-control" type="text" placeholder="saisir prenom..." >
+                <i class="search icon"></i>
+              </div>
+              <div class="ui fluid icon input form field">
+                <input name="phoneCandidat" id="phone" class="form-control" type="text" placeholder="saisir Tel..." >
+                <i class="phone icon"></i>
+              </div>
+
+              <div class="ui fluid icon input form field">
+                <!-- <label>CNI</label> -->
+                <input class="form-control" type="text" id="formation" name="niveauformation" placeholder="niveau academique...">
+                <i class="graduation cap icon"></i>
+              </div>
+            </div>
+            <!-- <div class="ui submit button">Submit</div> -->
+          </div>
+          <div class="ui divider"></div>
+          {{#if hasItem}}
+          <table id="indxtab" class="table indxtab" name="indxtab" >
+
+            <thead>
+              <tr>
+                <th>#</th>
+                <th >Nom & Prenom</th>
+                <th >CNI</th>
+                <th>Telephone</th>
+                <th>Date d'ajout</th>
+                <th >CVs</th>
+                <th class="text-center">Action</th>
+
+
+              </tr>
+            </thead>
+            {{#if isInRole 'admin'}}
+            {{#each Indxlist}}
+            <tbody>
+
+              <tr style=" color:#151515; font-family: 'Open Sans', sans-serif; ">
+                <td  style="text-align:left; font-family: 'Open Sans', sans-serif;">
+                <div class="ui black horizontal label" style="background-color:#8A084B;">{{@index}}</div></td>
+                <td  style=" color:#151515; font-family: 'Open Sans', sans-serif; ">
+                <div class="ui default horizontal label">{{nom}} {{truncate prenom}}</div></td>
+                <td  style=" color:#151515; font-family: 'Open Sans', sans-serif; ">
+                <div class="ui default horizontal label">{{cni}}</div></td>
+                <td  style=" color:#151515; font-family: 'Open Sans', sans-serif; ">
+                <div class="ui red label horizontal" style="background-color:#8A084B">{{phone}}</div></td>
+                <td  style=" color:#151515; font-family: 'Open Sans', sans-serif; ">
+                <div class="ui blue horizontal label">{{humanReadableDate birthday}}</div></td>
+                <td  style=" color:#151515; font-family: 'Open Sans', sans-serif; ">
+                {{#with lesCVs}}<a href="{{url download=true}}"><i class="download icon"></i></a>{{/with}}</td>
+                <td style=" color:#151515; font-family: 'Open Sans', sans-serif; " class="text-center">
+                  <a href="{{pathFor route='updateCV'}}" type="button" class="btn btn-primary btn-info btn-xs editCV " {{disableIfbasic _id}}>
+                    <span class="glyphicon glyphicon-edit"></span>
+                  </a>
+                  <!--data-toggle="modal" data-target="#{{this._id}}" <a class='btn btn-info btn-xs editCV {{disableIfbasic _id}}' type="button" data-tooltip="update cv" data-target="#{{this._id}}" data-toggle="modal" onfocus="this.blur()">
+                    <span class="glyphicon glyphicon-edit"></span></a> -->
+                    {{#if isInRole 'admin'}}
+                  <a href="#" class="btn btn-danger btn-xs supprimCV " {{disableIfbasic _id}}><span class="glyphicon glyphicon-remove"></span></a>
+                    {{/if}}</td>
+                </tr>
+            </tbody>
+            {{/each}}
+              {{else}}
+              {{#each allCvlist}}
+              <tbody>
+
+                <tr style=" color:#151515; font-family: 'Open Sans', sans-serif; ">
+                  <td  style="text-align:left; font-family: 'Open Sans', sans-serif;">
+                  <div class="ui black horizontal label" style="background-color:#8A084B;">{{@index}}</div></td>
+                  <td  style=" color:#151515; font-family: 'Open Sans', sans-serif; ">
+                  <div class="ui default horizontal label">{{nom}} {{prenom}}</div></td>
+                  <td  style=" color:#151515; font-family: 'Open Sans', sans-serif; ">
+                  <div class="ui default horizontal label">{{cni}}</div></td>
+                  <td  style=" color:#151515; font-family: 'Open Sans', sans-serif; ">
+                  <div class="ui red label horizontal" style="background-color:#8A084B">{{phone}}</div></td>
+                  <td  style=" color:#151515; font-family: 'Open Sans', sans-serif; ">
+                  <div class="ui blue horizontal label">{{humanReadableDate birthday}}</div></td>
+                  <td  style=" color:#151515; font-family: 'Open Sans', sans-serif; ">
+                  {{#with lesCVs}}<a href="{{url download=true}}"><i class="download icon"></i></a>{{/with}}</td>
+                  <td style=" color:#151515; font-family: 'Open Sans', sans-serif; " class="text-center">
+                    <a href="{{pathFor route='updateCV'}}" class="btn btn-primary btn-xs editCV " {{disableIfbasic _id}}>
+                      <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                    <!--data-toggle="modal" data-target="#{{this._id}}" <a class='btn btn-info btn-xs editCV {{disableIfbasic _id}}' type="button" data-tooltip="update cv" data-target="#{{this._id}}" data-toggle="modal" onfocus="this.blur()">
+                      <span class="glyphicon glyphicon-edit"></span></a> -->
+                      {{#if isInRole 'admin'}}
+                    <a href="#" class="btn btn-danger btn-xs supprimCV " {{disableIfbasic _id}}><span class="glyphicon glyphicon-remove"></span></a>
+                      {{/if}}</td>
+                  </tr>
+
+              </tbody>
+              {{/each}}
+            {{/if}}
+            <tfoot class="full-width">
+              <tr>
+                <th>#</th>
+                <th >Nom & Prenom</th>
+                <th >CNI</th>
+                <th>Telephone</th>
+                <th>Date d'ajout</th>
+                <th >CVs</th>
+                <th class="text-center">Action</th>
+
+
+              </tr>
+            </tfoot>
+          </table>
+          <div id="{{this._id}}" class="modal" tabindex="-1" role="dialog" aria-labelledby="cvinfo">
+          <div class="modal-dialog modal-dialog-centered" role="document" >
+            <div class="modal-content">
+               <div class="modal-header">
+                 <h5 id="cvinfo"></h5>
+               </div>
+               <div class="modal-body">
+
+                 <div class="ui form ">
+
+
+               </div>
+             </div>
+
+             </div>
+             <!-- End Modal des conso -->
+           </div>
+           </div>
+
+          {{else}}
+
+          <div class="ui tab segment">
+              {{> notFound}}
+          </div>
+        {{/if}}
+          <div class="export">
+            <button   href="#"  type="button" id="indxExpbtn" class="ui button export default ">Export Table to Excel</button>
+          </div>
+        </div>
+
+      </div>
+        <div class="ui tab sx" data-tab="subsecond">
+          <table class="ui celled black table ">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th class="text-center">Dossier en Pdf</th>
+                <!-- <th class="text-center">Zone</th> -->
+              </tr>
+            </thead>
+            <tbody>
+            {{#each VoirlesCVs}}
+            <tr>
+              <td>{{@index}}</td>
+              <td>{{name}}</td>
+              <td><a href="{{url download=true}}"><i class="download icon"></i></a></td>
+            </tr>
+            {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+  </div>
+
+<script type="text/javascript">
+        $("#indxExpbtn").click(function () {
+                 $("#indxtab").battatech_excelexport({
+                  containerid: "indxtab"
+               , datatype: 'table'
+             });
+         });
+          $('#dateinsertion').daterangepicker({
+            changeMonth: true,
+			      changeYear: true,
+            format: 'yyyy-mm-dd'}).on('changeDate', function(ev){
+    $('#dateinsertion').datepicker('hide')});
+    // $('#birthday').datepicker({
+    //
+    //         format: 'yyyy-mm-dd'}).on('changeDate', function(ev){
+    // $('#birthday').datepicker('hide')});
+</script>
+</template>

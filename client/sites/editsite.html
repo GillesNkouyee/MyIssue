@@ -1,0 +1,285 @@
+
+  <template name="editsite">
+    <!-- <div class="ui  container  "> -->
+<!--  -->
+    <div class="app-page-title"><h4>Espace Administrateur</h4></div>
+
+    <div class="ui divider"></div>
+    <section>
+    <div class="row">
+    <div class="col-12">
+    <div class="card  tab-card">
+      <div class="card-header tab-card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+              <a  id="clients-tab" data-toggle="tab" href="#clients" role="tab" aria-controls="Clients" aria-selected="true"><i class="plus icon"></i>Clients</a>
+          </li>
+          <li class="nav-item">
+              <a  id="projets-tab" data-toggle="tab" href="#projets" role="tab" aria-controls="Projets" aria-selected="false">Projets</a>
+          </li>
+          <li class="nav-item">
+              <a  id="ajoutData-tab" data-toggle="tab" href="#ajoutData" role="tab" aria-controls="AjoutData" aria-selected="false"><i class="user icon"></i>Insert Data</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active p-3" id="clients" role="tabpanel" aria-labelledby="clients-tab">
+          <div class="header nav-link" id="idChoixFiltrage">
+            <h5><a href="#" role=button class="btn btn-primary" data-toggle="modal"   data-target="#newClt" data-tooltip="Add Client" data-position="top right"><span class="glyphicon glyphicon-plus"></span></a>&nbsp;Client</h5>
+          </div>
+          <div class="ui divider"></div>
+          <table class="table table-hover table-border" id="dvData" name="MyClientTable">
+                  <thead class="thead blue">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">nom du client</th>
+                      <th scope="col">Commentaires</th>
+                      <th scope="col">Crée le</th>
+                      <th scope="col">Action</th>
+
+                    </tr>
+
+                  </thead>
+                  <!-- {#if  mesIncidentsTrimestriels}} -->
+                  {{#each clientList}}
+                  <tbody>
+                    <!-- {{#transition in="zoomIn:500" out="bounceOut:2000"}} -->
+
+                  <!--  -->
+                  <tr>
+                    <td scope="row">{{@index}}</td>
+                    <td scope="row">{{acronyme}}</td>
+                    <td scope="row">{{description}}</td>
+                    <td scope="row">{{humanReadableDate createdAt}}</td>
+                    <td scope="row">
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="#" role=button class="btn btn-primary" data-toggle="modal"   data-target="#newClt" data-tooltip="Add Client" data-position="top right"><span class="glyphicon glyphicon-plus"></span></a>
+
+                    {{#if isInRole 'admin'}}
+                  <a href="#" class="btn btn-danger btn-xs suppClient " {{disableIfbasic _id}} data-inverted="" data-tooltip="Delete Client" data-position="left center"><span class="glyphicon glyphicon-remove"></span></a>
+                    {{/if}}
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- {{/transition}} -->
+                </tbody>
+                {{/each}}
+              </table>
+          <!-- <h5 class="card-title">Tab Card One</h5> -->
+
+          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+        </div>
+        <div class="tab-pane fade p-3" id="projets" role="tabpanel" aria-labelledby="projets-tab">
+          <div class="header nav-link" id="idChoixFiltrage" style="display:bloc">
+            <h5><a href="#" role=button class="btn btn-primary" data-toggle="modal"   data-target="#newPrjt" data-tooltip="Add Projet" data-position="top right"><span class="glyphicon glyphicon-plus"></span></a>&nbsp;Projet</h5>
+          </div>
+          <div class="ui divider"></div>
+          <table class="table table-hover table-border" id="dvData" name="MyprojectTable">
+                  <thead class="thead-red">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">nom du client</th>
+                      <th scope="col">Commentaires</th>
+                      <th scope="col">Crée le</th>
+                      <th scope="col">Action</th>
+
+                    </tr>
+
+                  </thead>
+                  <!-- {#if  mesIncidentsTrimestriels}} -->
+                  {{#each projetList}}
+                  <tbody>
+                    <!-- {{#transition in="zoomIn:500" out="bounceOut:2000"}} -->
+
+                  <!--  -->
+                  <tr>
+                    <td scope="row">{{@index}}</td>
+                    <td scope="row">{{acronyme}}</td>
+                    <td scope="row">{{description}}</td>
+                    <td scope="row">{{humanReadableDate createdAt}}</td>
+                    <td scope="row">
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="#" role=button class="btn btn-primary" data-toggle="modal"   data-target="#newPrjt" data-tooltip="Add Projet" data-position="top right"><span class="glyphicon glyphicon-plus"></span></a>
+
+                    {{#if isInRole 'admin'}}
+                  <a href="#" class="btn btn-danger btn-xs suppProjet " {{disableIfbasic _id}} data-inverted="" data-tooltip="delete Projet" data-position="left center"><span class="glyphicon glyphicon-remove"></span></a>
+                    {{/if}}
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- {{/transition}} -->
+                </tbody>
+                {{/each}}
+              </table>
+          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+        </div>
+        <div class="tab-pane fade p-3" id="ajoutData" role="tabpanel" aria-labelledby="ajoutData-tab">
+          <!-- <h5 class="card-title">Tab Card Three</h5> -->
+          <p class="card-text">{{> upload}}</p>
+          <!-- <a href="#" class="btn btn-primary">{{> quickForm collection="Agents" id="inAgentform" type="insert"  omitFields="createdBy, lastUpdate, createdAt"
+                method="addAgent" resetOnSuccess=true}}</a> -->
+        </div>
+
+      </div>
+    </div>
+    </div>
+    </div>
+</section>
+<!--  -->
+
+
+
+
+      <!-- <div class="ui  tab segment" data-tab="fifth">
+        <div class="ui segment  container ">
+          <div class="ui cards stackable three grid center" >
+              {{#transition in="fadeIn:2000"}}
+              {{#each showAllagent}}
+                  <div class=" card" id="siteID">
+                    <div class="content">
+                      <div class="header">{{prenom}}&nbsp;{{nom}}</div>
+                      <div class="description summary">
+                        <li>Tel:{{mobile}}</li>
+
+                      </div>
+                    </div>
+                    <div class="ui bottom attached buttons">
+
+                      <a href="{{pathFor route='updateAgent'}}" class="ui button btn-primary btn-xs hijo " {{disableIfbasic _id}}>
+                              <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+
+                      </div>
+                  </div>
+
+                {{/each}}
+              {{/ transition}}
+              </div>
+        </div>
+      </div> -->
+<!-- </div> -->
+<div class="modal fade"  id="newClt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg"  role="document">
+                <div class="modal-content" >
+                  <div class="modal-header" >
+                    <h5 class="modal-title" id="exampleModalLabel">Créer un nouvel Client</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="ui form container">
+                      {{> addClient}}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+    </div>
+    <!-- new agent -->
+    <div class="modal fade"  id="newPrjt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg"  role="document">
+                    <div class="modal-content" >
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Créer un nouveau projet</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="ui form container">
+                          {{> addProjet}}
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+        </div>
+
+</template>
+<template name="mdfydata">
+  <div id="{{this._id}}" class="modal" tabindex="-1" role="dialog" aria-labelledby="myagentdata">
+  <div class="modal-dialog modal-lg" role="document" >
+    <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+         <h4 class="ui horizontal divider header">
+            Modifier les informations </h4>
+       </div>
+       <div class="modal-body">
+         {{#if isInRole 'admin'}}
+         <!--start update modal  -->
+
+         <!-- Modal -->
+         <div class="ui form ">
+
+
+         <!-- {{#autoForm collection="Agents" doc=this id="updtAgentform" type="update"  omitFields="createdBy, lastUpdate, createdAt"          method="updateAgentData" resetOnSuccess=true}} -->
+            <div class="three wide fields">
+              <div class="field">
+                {{> afQuickField name='nom'}}
+              </div>
+              <div class="field">
+                {{> afQuickField name='prenom'}}
+              </div>
+              <div class="field">
+                {{> afQuickField name='matricule'}}
+              </div>
+            </div>
+            <div class="three fields">
+            <div class="field">
+              {{> afQuickField name='projet'}}
+            </div>
+            <div class="field">
+              {{> afQuickField name='emails'}}
+            </div>
+            <div class="field">
+              {{> afQuickField name='mobile'}}
+            </div>
+            </div>
+
+            <div class="three fields">
+              <div class="field">
+              {{> afQuickField name='login'}}
+            </div>
+            <div class="field">
+              {{> afQuickField name='extension_Avaya'}}
+            </div>
+            </div>
+
+          <div class="two fields">
+
+              <div class="eight wide field">
+              {{> afQuickField name='fonction'}}
+            </div>
+
+              <div class="eight wide field">
+              {{> afQuickField name='direction'}}
+            </div>
+
+          </div>
+
+            <div class="ui blue segment">
+              <button type="submit" class="ui button primary " value="update"></button>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+
+         <!-- {{/autoForm}} -->
+
+         </div>
+
+         <!--end update modal  -->
+         {{/if}}
+      </div>
+
+      </div>
+    </div>
+</div>
+</template>

@@ -1,0 +1,93 @@
+<template name="homeLayout">
+<div class="home-container">
+  <header class="header">
+  <h1>{{#linkTo route="home"}}MyIssue{{/linkTo}}</h1>
+  <ul class="nav nav-pills">
+  <li>
+  {{#linkTo route="createIncident"}}Create{{/linkTo}}
+  </li>
+  </ul>
+  </header>
+  <section class="home-container__section">
+  <div class="home-container__section__left container-fluid">
+  {{> yield region="search"}}
+  </div>
+  <div class="main">
+  {{> yield}}
+  </div>
+  </section>
+  <footer class="footer">Copyright @Booking</footer>
+  </div>
+</template>
+<template name="createIncident">
+  <div class="container">
+    <div class="ui huge header"><h2>Enregistrer un incident</h2></div>
+    <div class="ui divider">
+
+    </div>
+    <!--  -->
+        <div class="ui segment">
+
+            <button type="button" class="btn  btn-lg btn-block" data-toggle="modal"   data-target="#newIssue">
+              <img src="/issue.png" class="img-circle"  width=45  height=45 alt="">
+            </button>
+        </div>
+
+  <div class="modal fade "  id="newIssue" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg"  role="document">
+                  <div class="modal-content" style="background-color:rgb(209, 241, 245))">
+                    <div class="modal-header" style="background-color:#59a3e0">
+                      <h5 class="modal-title" id="exampleModalLabel">Créer un nouvel incident</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" style="background-color: darkgray">
+                      <div class="ui form container">
+                        {{#autoForm collection="Incidents" id="CreateIncidentForm"
+                          type="method" class="container"
+                          meteormethod="addIncident" }}
+                          {{> afQuickField name='title'}}
+                          {{> afQuickField name='description'}}
+                          {{>afQuickField  name='perimetre'}}
+                          {{> afFieldInput name='startTime'  buttonClasses="glyphicon glyphicon-calendar"}}
+
+                          {{> afQuickField name='client' rows=2}}
+                          {{> afQuickField name='projetImpacte' row=2}}
+                          {{> afQuickField name='nbreagents'}}
+                          {{> afQuickField name='statut' row=2}}
+                          {{> afQuickField name='tickets'}}
+                          <button class="btn btn-lg btn-primary btn-block"
+                          type="submit">Create</button>
+                        {{/autoForm}}
+
+                        <!-- {{> quickForm collection="Incidents" id="CreateIncidentForm" method="addIncident"
+                        type="insert" omitFields="createdBy, lastUpdate, createdAt" buttonContent="Create"}} -->
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+      </div>
+  </div>
+
+</template>
+<template name="searchLayouttemplate">
+  <div class="huge disabled header">
+    <h3>Search here</h3>
+  </div>
+
+  <div class="ui  one wide segment stackable fields">
+    <div class="ui field">
+      <input type="text" name="" value="date here">
+    </div>
+    <div class="ui field">
+      <input type="text" name="" value="date here">
+    </div>
+
+
+  </div>
+</template>

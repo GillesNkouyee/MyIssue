@@ -1,0 +1,575 @@
+<template name="nav">
+  <!-- {{#if canView}}
+    <div class="dropdown">
+      <a class="View" href="/">{{i18n "View"}}</a>
+      <div class="dropdown-menu">
+        <ul class="nav site-nav desktop">
+          {{#each navItems}}
+            <li>
+              {{> template}}
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  {{/if}} -->
+</template>
+
+<template name="issueByMonth">
+  <div class="container">
+
+      <!-- {{#if hasItem}} -->
+      {{#unless  mesIncidentsMensuels}}
+      <div class="ui container">
+        <div class="alert alert-info" role="alert" style="text-align:center">
+          <h2 class="disabled header">No result request pending...</h2>
+
+          <img src="/issue.png"  alt="MyIssue" width="50px" height="50px" class="img-circle"><br>
+
+        </div>
+      </div>
+
+          {{else}}
+          <table class="table table-hover table-border" id="dvMthData" name="MyIssuetable">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">StartTime</th>
+                      <th scope="col">Client & Activité</th>
+                      <th scope="col">Titre</th>
+                      <th scope="col">BizImpact</th>
+                      <th scope="col">Durée</th>
+                      <th scope="col">Tickets</th>
+                      <th scope="col">Nbre agents</th>
+                      <th scope="col">Origine</th>
+                      <!-- <th scope="col">Action</th> -->
+                    </tr>
+                  </thead>
+
+                  {{#transition in="zoomIn:500" out="bounceOut:2000"}}
+                  {{#each mesIncidentsMensuels}}
+                  <tbody>
+
+                  <!--  -->
+                  <tr>
+                    <td scope="row">{{@index}}</td>
+                    <td scope="row">{{humanReadableDate startDate}}</td>
+                    <td scope="row">{{incdtClient}}&nbsp;|&nbsp;{{incdtProjet}}</td>
+                    <td scope="row">{{incdtTitle}}</td>
+                    <td scope="row">{{incdtImpact}}</td>
+                    <td scope="row"><label for="duration">{{rangetime}}</label></td>
+                    <td scope="row">{{incdtTicket1}}<br>{{incdtTicket2}}</td>
+                    <td scope="row"><span class="badge badge-pill">{{incdtNbreagent}}</span></td>
+                    <td scope="row">{{incdtPerimetre}}</td>
+                    <!-- <td scope="row">
+
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="{{pathFor route='updateIncident'}}" role=button class="btn btn-primary" data-tooltip="update issue info" data-position="top center"><span class="glyphicon glyphicon-edit"></span></a>
+                        {{#if isInRole 'admin'}}
+                      <a href="#" class="btn btn-danger basic btn-xs delIssue " {{disableIfbasic _id}} data-inverted="" data-tooltip="delete issue" data-position="left center"><span class="glyphicon glyphicon-remove"></span></a>
+                        {{/if}}
+                      </div>
+                    </td> -->
+                  </tr>
+
+                </tbody>
+                  {{/each}}
+                  {{/transition}}
+
+              </table>
+          {{/unless}}
+          <div class="export">
+            <!-- <button   href="#"  type="button" id="issueExpbtn" class="ui button export default ">Export Table to Excel</button> -->
+            <button type="button" class="btn btn-secondary btn-xs" id="mthExport" value=" Export Table data into Excel " >Export Xls</button>
+            <button id="csvMthExport" class="btn btn-secondary" onclick="javascript:xport.toCSV('dvMthData');"> Export to CSV</button>
+
+          </div>
+
+  </div>
+  <script type="text/javascript">
+    $("#mthExport").click(function (e) {
+      alert('Hi dude!Did you correctly select your data ?');
+      //getting values of current time for generating the file name
+      var dt = new Date();
+      var day = dt.getDate();
+      var month = dt.getMonth() + 1;
+      var year = dt.getFullYear();
+      var hour = dt.getHours();
+      var mins = dt.getMinutes();
+      var postfix = day + "." + month + "." + year + "_" + hour + "." + mins;
+      //creating a temporary HTML link element (they support setting file names)
+      var a = document.createElement('a');
+      //getting data from our div that contains the HTML table
+      var data_type = 'data:application/vnd.ms-excel;charset=utf-8';
+
+      var table_html = $('#dvData')[0].outerHTML;
+  //    table_html = table_html.replace(/ /g, '%20');
+      table_html = table_html.replace(/<tfoot[\s\S.]*tfoot>/gmi, '');
+
+      var css_html = '<style>td {border: 0.5pt solid #c0c0c0} .tRight { text-align:right} .tLeft { text-align:left} </style>';
+  //    css_html = css_html.replace(/ /g, '%20');
+
+      a.href = data_type + ',' + encodeURIComponent('<html><head>' + css_html + '</' + 'head><body>' + table_html + '</body></html>');
+
+      //setting the file name
+      a.download = 'exported_table_' + postfix + '.xls';
+      //triggering the function
+      alert('okii , go on!','info');
+      a.click();
+      //just in case, prevent default behaviour
+      e.preventDefault();
+  });
+
+    var xport = {
+      _fallbacktoCSV: true,
+
+      toCSV: function(tableId, filename) {
+       this._filename = (typeof filename === 'undefined') ? tableId : filename;
+       // Generate our CSV string from out HTML Table
+       var csv = this._tableToCSV(document.getElementById(tableId));
+       // Create a CSV Blob
+       var blob = new Blob([csv], { type: "text/csv" });
+
+       // Determine which approach to take for the download
+       if (navigator.msSaveOrOpenBlob) {
+         // Works for Internet Explorer and Microsoft Edge
+         navigator.msSaveOrOpenBlob(blob, this._filename + ".csv");
+       } else {
+         this._downloadAnchor(URL.createObjectURL(blob), 'csv');
+       }
+      },
+
+      _getMsieVersion: function() {
+       var ua = window.navigator.userAgent;
+
+       var msie = ua.indexOf("MSIE ");
+       if (msie > 0) {
+         // IE 10 or older => return version number
+         return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
+       }
+
+       var trident = ua.indexOf("Trident/");
+       if (trident > 0) {
+         // IE 11 => return version number
+         var rv = ua.indexOf("rv:");
+         return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
+       }
+
+       var edge = ua.indexOf("Edge/");
+       if (edge > 0) {
+         // Edge (IE 12+) => return version number
+         return parseInt(ua.substring(edge + 5, ua.indexOf(".", edge)), 10);
+       }
+
+       // other browser
+       return false;
+      },
+      _isFirefox: function(){
+       if (navigator.userAgent.indexOf("Firefox") > 0) {
+         return 1;
+       }
+
+       return 0;
+      },
+      _downloadAnchor: function(content, ext) {
+         var anchor = document.createElement("a");
+         anchor.style = "display:none !important";
+         anchor.id = "downloadanchor";
+         document.body.appendChild(anchor);
+
+         // If the [download] attribute is supported, try to use it
+
+         if ("download" in anchor) {
+           anchor.download = this._filename + "." + ext;
+         }
+         anchor.href = content;
+         anchor.click();
+         anchor.remove();
+      },
+      _tableToCSV: function(table) {
+       // We'll be co-opting `slice` to create arrays
+       var slice = Array.prototype.slice;
+
+       return slice
+         .call(table.rows)
+         .map(function(row) {
+           return slice
+             .call(row.cells)
+             .map(function(cell) {
+               return '"t"'.replace("t", cell.textContent);
+             })
+             .join(",");
+         })
+         .join("\r\n");
+        }
+  };
+  </script>
+</template>
+<template name="issueByQuarter">
+  <div class="container">
+    {{#unless  mesIncidentsTrimestriels}}
+    <div class="container">
+      <div class="alert alert-info" role="alert" style="text-align:center">
+        <h2 class="disabled header">No result request pending...</h2>
+
+        <img src="/issue.png"  alt="MyIssue" width="50px" height="50px" class="img-circle"><br>
+
+      </div>
+    </div>
+
+        {{else}}
+      <table class="table table-hover table-border table-responsive-sm" id="dvQtrData" name="MyIssuetable">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">StartTime</th>
+                  <th scope="col">Client & Activité</th>
+                  <th scope="col">Titre</th>
+                  <th scope="col">BizImpact</th>
+                  <th scope="col">End Time</th>
+                  <th scope="col">Tickets</th>
+                  <th scope="col">Nbre agents</th>
+                  <th scope="col">Origine</th>
+                  <!-- <th scope="col">Action</th> -->
+                </tr>
+
+              </thead>
+              <!-- {#if  mesIncidentsTrimestriels}} -->
+
+              <tbody>
+                {{#transition in="zoomIn:500" out="bounceOut:2000"}}
+                {{#each mesIncidentsTrimestriels}}
+              <!--  -->
+              <tr>
+                <td scope="row">{{@index}}</td>
+                <td scope="row">{{humanReadableDate startDate}}</td>
+                <td scope="row">{{incdtClient}}&nbsp;|&nbsp;{{incdtProjet}}</td>
+                <td scope="row">{{incdtTitle}}</td>
+                <td scope="row">{{incdtImpact}}</td>
+                <td scope="row"><label for="duration">{{goodDateformat endDate}}</label></td>
+                <td scope="row">{{incdtTicket1}}<br>{{incdtTicket2}}</td>
+                <td scope="row"><span class="badge badge-pill">{{incdtNbreagent}}</span></td>
+                <td scope="row">{{incdtPerimetre}}</td>
+                <!-- <td scope="row">
+
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{{pathFor route='updateIncident'}}" role=button class="btn btn-primary">edit</a>
+                  </div>
+                </td> -->
+              </tr>
+              {{/each}}
+              {{/transition}}
+            </tbody>
+
+          </table>
+            {{/unless}}
+            <div class="export">
+              <!-- <button   href="#"  type="button" id="issueExpbtn" class="ui button export default ">Export Table to Excel</button> -->
+              <button type="button" class="btn btn-secondary btn-xs" id="qtrExport" value=" Export Table data into Excel " >Export Xls</button>
+              <button id="csvQtrExport" class="btn btn-secondary" onclick="javascript:xport.toCSV('dvQtrData');"> Export to CSV</button>
+
+            </div>
+  </div>
+  <script type="text/javascript">
+    $("#qtrExport").click(function (e) {
+      alert('Hi dude!Did you correctly select your data ?');
+      //getting values of current time for generating the file name
+      var dt = new Date();
+      var day = dt.getDate();
+      var month = dt.getMonth() + 1;
+      var year = dt.getFullYear();
+      var hour = dt.getHours();
+      var mins = dt.getMinutes();
+      var postfix = day + "." + month + "." + year + "_" + hour + "." + mins;
+      //creating a temporary HTML link element (they support setting file names)
+      var a = document.createElement('a');
+      //getting data from our div that contains the HTML table
+      var data_type = 'data:application/vnd.ms-excel;charset=utf-8';
+
+      var table_html = $('#dvQtrData')[0].outerHTML;
+  //    table_html = table_html.replace(/ /g, '%20');
+      table_html = table_html.replace(/<tfoot[\s\S.]*tfoot>/gmi, '');
+
+      var css_html = '<style>td {border: 0.5pt solid #c0c0c0} .tRight { text-align:right} .tLeft { text-align:left} </style>';
+  //    css_html = css_html.replace(/ /g, '%20');
+
+      a.href = data_type + ',' + encodeURIComponent('<html><head>' + css_html + '</' + 'head><body>' + table_html + '</body></html>');
+
+      //setting the file name
+      a.download = 'exported_table_' + postfix + '.xls';
+      //triggering the function
+      alert('okii , go on!','info');
+      a.click();
+      //just in case, prevent default behaviour
+      e.preventDefault();
+  });
+
+    var xport = {
+      _fallbacktoCSV: true,
+
+      toCSV: function(tableId, filename) {
+       this._filename = (typeof filename === 'undefined') ? tableId : filename;
+       // Generate our CSV string from out HTML Table
+       var csv = this._tableToCSV(document.getElementById(tableId));
+       // Create a CSV Blob
+       var blob = new Blob([csv], { type: "text/csv" });
+
+       // Determine which approach to take for the download
+       if (navigator.msSaveOrOpenBlob) {
+         // Works for Internet Explorer and Microsoft Edge
+         navigator.msSaveOrOpenBlob(blob, this._filename + ".csv");
+       } else {
+         this._downloadAnchor(URL.createObjectURL(blob), 'csv');
+       }
+      },
+
+      _getMsieVersion: function() {
+       var ua = window.navigator.userAgent;
+
+       var msie = ua.indexOf("MSIE ");
+       if (msie > 0) {
+         // IE 10 or older => return version number
+         return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
+       }
+
+       var trident = ua.indexOf("Trident/");
+       if (trident > 0) {
+         // IE 11 => return version number
+         var rv = ua.indexOf("rv:");
+         return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
+       }
+
+       var edge = ua.indexOf("Edge/");
+       if (edge > 0) {
+         // Edge (IE 12+) => return version number
+         return parseInt(ua.substring(edge + 5, ua.indexOf(".", edge)), 10);
+       }
+
+       // other browser
+       return false;
+      },
+      _isFirefox: function(){
+       if (navigator.userAgent.indexOf("Firefox") > 0) {
+         return 1;
+       }
+
+       return 0;
+      },
+      _downloadAnchor: function(content, ext) {
+         var anchor = document.createElement("a");
+         anchor.style = "display:none !important";
+         anchor.id = "downloadanchor";
+         document.body.appendChild(anchor);
+
+         // If the [download] attribute is supported, try to use it
+
+         if ("download" in anchor) {
+           anchor.download = this._filename + "." + ext;
+         }
+         anchor.href = content;
+         anchor.click();
+         anchor.remove();
+      },
+      _tableToCSV: function(table) {
+       // We'll be co-opting `slice` to create arrays
+       var slice = Array.prototype.slice;
+
+       return slice
+         .call(table.rows)
+         .map(function(row) {
+           return slice
+             .call(row.cells)
+             .map(function(cell) {
+               return '"t"'.replace("t", cell.textContent);
+             })
+             .join(",");
+         })
+         .join("\r\n");
+        }
+  };
+  </script>
+</template>
+<template name="issueBySemester">
+  <div class="container">
+      {{#if mesIncidentsSemestriels}}
+      <table class="table table-hover table-border" id="dvSemData" name="MyIssuetable">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">StartTime</th>
+                  <th scope="col">Client & Activité</th>
+                  <th scope="col">Titre</th>
+                  <th scope="col">BizImpact</th>
+                  <th scope="col">End Time</th>
+                  <th scope="col">Tickets</th>
+                  <th scope="col">Nbre agents</th>
+                  <th scope="col">Origine</th>
+                  <!-- <th scope="col">Action</th> -->
+                </tr>
+              </thead>
+              {{#transition in="zoomIn:500" out="bounceOut:2000"}}
+              {{#each mesIncidentsSemestriels}}
+              <tbody>
+
+              <!--  -->
+              <tr>
+                <td scope="row">{{@index}}</td>
+                <td scope="row">{{humanReadableDate startDate}}</td>
+                <td scope="row">{{incdtClient}}&nbsp;|&nbsp;{{incdtProjet}}</td>
+                <td scope="row">{{incdtTitle}}</td>
+                <td scope="row">{{incdtImpact}}</td>
+                <td scope="row"><label for="duration">{{goodDateformat endDate}}</label></td>
+                <td scope="row">{{incdtTicket1}}<br>{{incdtTicket2}}</td>
+                <td scope="row"><span class="badge badge-pill">{{incdtNbreagent}}</span></td>
+                <td scope="row">{{incdtPerimetre}}</td>
+                <!-- <td scope="row">
+
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{{pathFor route='updateIncident'}}" role=button class="btn btn-primary">edit</a>
+                  </div>
+                </td> -->
+              </tr>
+
+            </tbody>
+              {{/each}}
+              {{/transition}}
+          </table>
+
+          {{else}}
+          <!-- <div class="container"> -->
+            <div class="alert alert-info" role="alert" style="text-align:center">
+
+              <h2 class="disabled header">No result request pending...</h2>
+
+              <img src="/issue.png"  alt="MyIssue" width="50px" height="50px" class="img-circle"><br>
+              <!-- <h5 class=" huge disabled header" style="text-align:center">Démarrez la recherche en saisissant un client, un projet, ou un titre d'incident...</h5> -->
+            </div>
+          <!-- </div> -->
+          {{/if}}
+          <div class="export">
+            <!-- <button   href="#"  type="button" id="issueExpbtn" class="ui button export default ">Export Table to Excel</button> -->
+            <button type="button" class="btn btn-secondary btn-xs" id="semExport" value=" Export Table data into Excel " >Export Xls</button>
+            <button id="csvSemExport" class="btn btn-secondary" onclick="javascript:xport.toCSV('dvSemData');"> Export to CSV</button>
+
+          </div>
+
+  </div>
+  <script type="text/javascript">
+    $("#semExport").click(function (e) {
+      alert('Hi dude!Did you correctly select your data ?');
+      //getting values of current time for generating the file name
+      var dt = new Date();
+      var day = dt.getDate();
+      var month = dt.getMonth() + 1;
+      var year = dt.getFullYear();
+      var hour = dt.getHours();
+      var mins = dt.getMinutes();
+      var postfix = day + "." + month + "." + year + "_" + hour + "." + mins;
+      //creating a temporary HTML link element (they support setting file names)
+      var a = document.createElement('a');
+      //getting data from our div that contains the HTML table
+      var data_type = 'data:application/vnd.ms-excel;charset=utf-8';
+
+      var table_html = $('#dvSemData')[0].outerHTML;
+  //    table_html = table_html.replace(/ /g, '%20');
+      table_html = table_html.replace(/<tfoot[\s\S.]*tfoot>/gmi, '');
+
+      var css_html = '<style>td {border: 0.5pt solid #c0c0c0} .tRight { text-align:right} .tLeft { text-align:left} </style>';
+  //    css_html = css_html.replace(/ /g, '%20');
+
+      a.href = data_type + ',' + encodeURIComponent('<html><head>' + css_html + '</' + 'head><body>' + table_html + '</body></html>');
+
+      //setting the file name
+      a.download = 'exported_table_' + postfix + '.xls';
+      //triggering the function
+      alert('okii , go on!','info');
+      a.click();
+      //just in case, prevent default behaviour
+      e.preventDefault();
+  });
+
+    var xport = {
+      _fallbacktoCSV: true,
+
+      toCSV: function(tableId, filename) {
+       this._filename = (typeof filename === 'undefined') ? tableId : filename;
+       // Generate our CSV string from out HTML Table
+       var csv = this._tableToCSV(document.getElementById(tableId));
+       // Create a CSV Blob
+       var blob = new Blob([csv], { type: "text/csv" });
+
+       // Determine which approach to take for the download
+       if (navigator.msSaveOrOpenBlob) {
+         // Works for Internet Explorer and Microsoft Edge
+         navigator.msSaveOrOpenBlob(blob, this._filename + ".csv");
+       } else {
+         this._downloadAnchor(URL.createObjectURL(blob), 'csv');
+       }
+      },
+
+      _getMsieVersion: function() {
+       var ua = window.navigator.userAgent;
+
+       var msie = ua.indexOf("MSIE ");
+       if (msie > 0) {
+         // IE 10 or older => return version number
+         return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
+       }
+
+       var trident = ua.indexOf("Trident/");
+       if (trident > 0) {
+         // IE 11 => return version number
+         var rv = ua.indexOf("rv:");
+         return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
+       }
+
+       var edge = ua.indexOf("Edge/");
+       if (edge > 0) {
+         // Edge (IE 12+) => return version number
+         return parseInt(ua.substring(edge + 5, ua.indexOf(".", edge)), 10);
+       }
+
+       // other browser
+       return false;
+      },
+      _isFirefox: function(){
+       if (navigator.userAgent.indexOf("Firefox") > 0) {
+         return 1;
+       }
+
+       return 0;
+      },
+      _downloadAnchor: function(content, ext) {
+         var anchor = document.createElement("a");
+         anchor.style = "display:none !important";
+         anchor.id = "downloadanchor";
+         document.body.appendChild(anchor);
+
+         // If the [download] attribute is supported, try to use it
+
+         if ("download" in anchor) {
+           anchor.download = this._filename + "." + ext;
+         }
+         anchor.href = content;
+         anchor.click();
+         anchor.remove();
+      },
+      _tableToCSV: function(table) {
+       // We'll be co-opting `slice` to create arrays
+       var slice = Array.prototype.slice;
+
+       return slice
+         .call(table.rows)
+         .map(function(row) {
+           return slice
+             .call(row.cells)
+             .map(function(cell) {
+               return '"t"'.replace("t", cell.textContent);
+             })
+             .join(",");
+         })
+         .join("\r\n");
+        }
+  };
+  </script>
+</template>

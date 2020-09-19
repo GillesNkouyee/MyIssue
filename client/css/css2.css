@@ -1,0 +1,78 @@
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+.sideMenu, .sideYield {
+    height: 100%;
+    max-width: 100%;
+	padding-top: 70px;
+  	position:relative;
+}
+.app-page-title {
+    /* width:100%; */
+    padding: 30px;
+    margin: -30px -30px -30px;
+    position: relative;
+    background-color: #f9fafb;
+    position: sticky;
+
+}
+.sideMenu {
+	position: fixed;
+	width: 215px;
+	min-width: 180px;
+	min-height: 100vh;
+	max-width: 210px;
+	background-color:#c00281;/*#F8BBD0; /*#13591f ;/* #FCE4EC;          /* A ENLEVER DANS MA DERNIERE VERSION */
+	border-right: 5px solid #FCE4EC;     /* A ENLEVER DANS MA DERNIERE VERSION */
+}
+#idSideMenu.active {
+    margin-left: -250px;
+}
+.centralbloc{
+  margin-left: -170px;
+  max-width: 100%;
+}
+#idSideMenu a:active {
+ text-decoration: underline;
+}
+.sidebar-nav li a:active, .sidebar-nav li a:focus {
+  text-decoration-line: underline;
+} /* whenclicked
+
+/* .dropdown-menu {
+	width: 270px;
+	padding: 10px;
+	margin-left: 160px;
+	background-color: #FCE4EC;
+	background-color: rgba(249,249,249,0);
+} */
+/* @media (max-width: 768px) {
+    #idSideMenu {
+        margin-left: -250px;
+    }
+    #idSideMenu.active {
+        margin-left: 0;
+    }
+} */
+.sideYield {
+	position: absolute;
+	width: 80%;
+	min-width: 800px;
+	left: 200px;
+	/*margin-top: 80px; */
+	padding-top: 95px;
+	padding-left: 90px;
+}
+/* .indxtab{
+    border: 3px;
+    padding: 5px;
+    margin: 5% 0;
+    box-shadow: 3px 3px 2px #ccc;
+    transition: 0.5s;
+    } */
+/* .indxtab:hover{
+    box-shadow: 3px 3px 0px transparent;
+    transition: 0.5s;
+    } */

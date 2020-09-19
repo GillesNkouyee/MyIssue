@@ -1,0 +1,12 @@
+<template name="formVente">
+
+        <td><select class="form-control" name="produit" id="produit">
+            {{#each product}}
+                <option value="{{doc.produit}}">{{doc.produit}}</option>
+            {{/each}}
+        </select></td>
+        <td><input type="text" class="form-control quantite" id="quantite" placeholder="Quantite"></td>
+        <td><input type="text" class="form-control" id="prixU" value="{{prix}}" onfocus="this.blur()"> </td>
+            <td><input type="text" class="form-control" value="{{total}}" onfocus="this.blur()"> </td>
+
+</template>

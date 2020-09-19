@@ -1,0 +1,95 @@
+<template id="sitelist" name="sitelist">
+
+    <div class="ui  container">
+      {{#if isInRole 'basic,admin'}}
+        <!-- <div class="ui divider container montheme"  style="text-align:center; border-radius:3px; height:50px;"></div> -->
+            <div class="ui fields">
+
+                <div class="ui field segment">
+                  <div class="ui header">Selectionnez un site</div>
+
+                  <form class="ui form" id="findsite">
+                  <table class="ui single line striped selectable table ">
+
+                              <thead>
+                                  <tr>
+                                      <th>Nom de site</th>
+                                      <!-- <th>FuelType</th> -->
+                                      <th>Prev Index</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+
+                              <tr style="padding:3px">
+                                <td><select class="ui search fluid dropdown" name="site" id="site" firstoption="-Select a site-">
+                                  <option value=""></option>
+                              {{#each affichersite}}
+                                  <option value="{{sitename}}">{{sitename}}</option>
+
+                              {{/each}}
+                          </select></td>
+
+                          <td>
+                            <div class="ui teal right labeled input four wide">
+                              <input type="text" id="indexconso" value="{{index}}" onfocus="this.blur()">
+                              <div class="ui red horizontal label " >KW.h</div>
+                            </div>
+                          </td>
+
+                              </tr>
+
+                              </tbody>
+
+                      </table>
+                      </form>
+                </div>
+
+                <div class="ui field segment">
+                  <div class="fields ">
+                    <div class="ui header">Relevez l'index</div>
+                    <div class="ui divider"></div>
+
+
+                    <div class="ui form form-group">
+
+                        {{#autoForm collection="Consommation" id="consForm" type="insert"  omitFields="createdBy, updatedAt,createdAt"
+                                  method ="enregistrerconso"   resetOnSuccess=true}}
+                                <div class="two wide fields">
+                                  <div class="field form-group">
+                                    {{> afQuickField name='conso'  }}
+                                    <span class="help-block">{{errorMessage 'conso'}}</span>
+                                  </div>
+                                  <div class="field form-group" >
+                                    {{> afQuickField name='site' id='sitematch'}}
+                                  </div>
+
+                                </div>
+                                <div class="two wide fields">
+                                    <div class="field form-group">
+                                      {{> afQuickField name='CapScan' id='CapScan' remove-label="Remove"}}
+                                    </div>
+                                    <div class="field form-group">
+                                      <!-- {{> afQuickField name='createdAt'}} -->
+                                    </div>
+                                </div>
+                                <div class=" fields">
+                                    <input type="submit" class="form-control ui button {{unAuthorized}}" value="Insert" />
+                                </div>
+
+
+                          {{/autoForm}}
+                    </div>
+
+                </div>
+              </div>
+            </div>
+            {{else}}
+
+            <div class="ui page">
+              {{> accessDenied}}
+            </div>
+
+          {{/if}}
+          </div>
+
+</template>

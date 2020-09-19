@@ -1,0 +1,96 @@
+<template name="updateIncident">
+  <div class="container ">
+    <br>
+      <!-- <div class="ui  menu" style="display: inline">
+        <div class="left item">
+        <h3 style="text-align: left">Update Ticket : {{title}}</h3>
+      </div>
+
+        <div class="right item">
+          <h4 style="text-align: right">...back to:<a href="{{pathFor route='dashboardview'}}">Dashboard</a></h4>
+        </div>
+      </div> -->
+      <div class="ui small header menu"><div class="left item">
+        <h4 style="text-align: left" class="nav-link" id="idChoixFiltrage">Ticket : {{title}} {{incidentId}}</h4>
+      </div>
+
+        <div class="right item">
+          <h4 style="text-align: right"><a href="{{pathFor route='dashboardview'}}" data-inverted="" data-tooltip="back to dashboard" data-position="right center">Dashboard</a></h4>
+        </div>
+      </div>
+
+    <div class="ui divider"></div>
+
+        <div class="ui segment  container ">
+
+          {{#if isInRole 'admin'}}
+          <!--start update modal  -->
+             <div class="ui form ">
+              <!-- {{> quickForm collection="Incidents" id="UpdateIncidentForm" method="updateIncident" doc=this             type="update"  buttonContent="Modifier" resetOnSuccess=true}}-->
+
+         {{#autoForm collection="Incidents" doc=this id="updtIncidentform" type="update"  omitFields="createdBy, lastUpdate, createdAt"  method="updateIncident" resetOnSuccess=true}}
+          <div class="three wide fields">
+            <div class="field">
+              {{> afQuickField name='title'}}
+            </div>
+            <div class="field">
+              {{> afQuickField name='startTime' type="datetime-local"}}
+            </div>
+            <div class="field">
+              {{> afFormGroup name='endTime' type="datetime-local"}}
+            </div>
+          </div>
+          <div class="three fields">
+          <div class="field">
+            {{> afQuickField name='projetImpacte'}}
+          </div>
+          <div class="field">
+            {{> afQuickField name='statut'}}
+          </div>
+          <div class="field">
+            {{> afQuickField name='client'}}
+          </div>
+          </div>
+
+          <div class="two fields">
+            <div class="field">
+            {{> afQuickField name='nbreagents'}}
+          </div>
+          <div class="eight wide field">
+            {{> afQuickField name='perimetre'}}
+          </div>
+          </div>
+
+        <div class="two fields">
+          <div class="fields stackable">
+            <div class="eight wide field">
+            {{> afQuickField name='description'}}
+          </div>
+          <div class="eight wide field">
+          {{> afQuickField name='Solution'}}
+        </div>
+          </div>
+
+          <div class="field">
+            {{> afQuickField name='tickets'}}
+          </div>
+        </div>
+
+          <div class="ui blue segment">
+            <input type="submit" class="ui button primary " value="update"/>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+
+       {{/autoForm}}
+
+        </div>
+        {{else}}
+       {{> accessDenied}}
+       {{/if}}
+      </div>
+    </div>
+
+</template>

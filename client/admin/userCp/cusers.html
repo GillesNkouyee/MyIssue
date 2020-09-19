@@ -1,0 +1,67 @@
+<template name="users">
+  {{#if isInRole 'admin,manager'}}
+    <!-- {{> sendInvitationModal}} -->
+
+    <h4 class="page-header">Users</h4>
+    <table class="ui celled black table ">
+      <thead>
+        <tr>
+          <th>Email Address</th>
+          <th class="text-center">Role</th>
+          <!-- <th class="text-center">Zone</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        {{#each users}}
+          <tr>
+            <td class="text-left text-middle">{{#if isCurrentUser _id}}<label class="label label-success">You!</label>{{/if}}
+              {{emails.[0].address}}</td>
+            <td>
+              <select  {{disableIfAdmin _id}} name="userRole" class="ui form form-control ">
+                <option selected="{{selected roles.[0] 'admin'}}" value="admin">Admin</option>
+                <option selected="{{selected roles.[0] 'manager'}}" value="manager">Manager</option>
+                <!-- <option selected="{{selected roles.[0] 'sup'}}" value="sup">Supervisor</option>
+                <option selected="{{selected roles.[0] 'tech'}}" value="tech">Technician</option> -->
+                <option selected="{{selected roles.[0] 'basic'}}" value="basic">Consultant</option>
+                <option selected="{{selected roles.[0] 'inactive'}}" value="inactive">Deny Access</option>
+              </select>            
+            </td>
+            <!-- <td> -->
+              <!-- <select class="ui search fluid dropdown form form-control" name="region" id="region" firstoption="-Select a site-">
+                <option value=""></option>
+            {{#each afficherzone}}
+                <option value="{{name}}">{{name}}</option>
+
+            {{/each}}
+             </select> -->
+
+
+              <!-- <select {{disableIfAdmin _id}} name="userRegion" class="ui form form-control ">
+
+                <option selected="{{selected zone.[0] 'Center'}}" value="Center">Center</option>
+                <option selected="{{selected zone.[1] 'East'}}" value="East">East</option>
+                <option selected="{{selected zone.[2] 'Litoral'}}" value="Litoral">Litoral</option>
+                <option selected="{{selected zone.[3] 'North'}}" value="North">North</option>
+                <option selected="{{selected zone.[4] 'NorthWest'}}" value="NorthWest">NorthWest</option>
+                <option selected="{{selected zone.[5] 'South'}}" value="South">South</option>
+                <option selected="{{selected zone.[6] 'SouthWest'}}" value="SouthWest">SouthWest</option>
+                <option selected="{{selected zone.[7] 'West'}}" value="West">West</option>
+
+              </select> -->
+            <!-- </td> -->
+          </tr>
+
+        {{/each}}
+      </tbody>
+
+    </table>
+    [...]
+  {{/if}}
+
+</template>
+<template name="basic">
+  <h3>Basic</h3>
+</template>
+<template name="managers">
+  <h3>Managers</h3>
+</template>

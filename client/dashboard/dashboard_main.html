@@ -1,0 +1,448 @@
+<template name="dashboardview">
+ <!-- <div class="container"> -->
+   <div class="app-page-title menu"><h4>Dashboard</h4></div>
+
+   <div class="ui divider"></div>
+<!-- <button class="btn btn-sm"
+onclick="document.getElementById('demo').innerHTML = Date()">
+Show date.</button><span id="demo"></span> -->
+   <section class="statistics">
+     {{#if currentUser}}
+     <div class="nav-link" id="idChoixFiltrage">Bienvenu: &nbsp;{{name}}</div>
+     {{else}}
+     <div class="nav-link" id="idChoixFiltrage">No one logged in !</div>
+     {{/if}}
+      <div class="ui divider"></div>
+       <div class="container-fluid">
+          <div class="row">
+           {{#each bugClient}}
+            <div class="col-md-4">
+              <div class="box " style="backgroundColor: #ccc">
+                 <!-- <i class="fa fa-envelope fa-fw bg-primary"></i> -->
+                <img src="/issue.png" class="img-circle img-responsive"  width=40  height=40 alt="">
+                <div class="info">
+                  <h3></h3> <span>{{cltAcronyme client}}{{clientAcronyme}}</span>
+                  <p>Total des tickets:&nbsp;<span class="badge badge-pill {{panColor}} ">{{client}}</span></p>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+            <div class="col-md-4">
+              <div class="box" style="background-color:#eaedf2">
+               <!-- <i class="fa fa-envelope fa-fw bg-primary"></i> -->
+                <img src="/issue.png" class="img-circle img-responsive"  width=40  height=40 alt="">
+                <div class="info">
+                  <h6>Total des incident: &nbsp;</h6>
+                  <span class="badge badge-pill badge-danger">{{hasItem}}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+  </section>
+        <br>
+        <div class="ui small header menu"><div class="left item nav-link">
+          <h4>Filtres </h4>
+        </div>
+
+          <div class="right item">
+            <button type="button" class="btn btn-block" data-toggle="modal"   data-target="#newIssue" data-tooltip="New issue" data-position="top right">
+              <img src="/issue.png" class="img-circle"  width=25  height=25 alt="">
+            </button>
+          </div>
+        </div>
+          <div class="ui divider"></div>
+          <div class="ui form">
+            <div class="ui four wide stackable fields">
+              <!-- <div class="ui fluid icon input form field">
+                <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+              </div> -->
+              <div class="ui form icon input field">                
+                <input name="startTime" id="startTime" class="form-control" type="date" >
+                <i class="calendar icon"></i>
+              </div>
+              <div class="ui form icon input field">                
+                <input name="endTime" id="endTime" class="form-control" type="date" >
+                <i class="calendar icon"></i>
+              </div>
+              <div class="ui fluid icon input form field">
+                <input name="Client" id="client" class="form-control" type="text" placeholder="saisir Client...">
+                <i class="search icon"></i>
+              </div>
+              <div class="ui fluid icon input form field">
+                <input name="Projet" id="projetimpacte" class="form-control" type="text" placeholder="saisir projet..." >
+              </div>
+               <!-- <div class=" field form-check-inline">
+                <label class="form-check-label">
+                  <input type="checkbox" id="statut1" class="form-control form-check-input" checked=""  value="cloturé">Résolu   </label></div>
+                <div class=" field form-check-inline">
+                <label class="form-check-label">
+                  <input type="checkbox" id="statut2" class="form-control form-check-input" checked="" value="ouvert">En cours</label>
+              </div> -->
+              <div class="ui fluid icon input form field">
+                <input class="form-control" type="text" id="perimetre" name="Perimetre" placeholder="Perimetre...">
+                <i class="digital ocean icon"></i>
+              </div>
+
+              <!-- <div class="ui fluid icon input form field">
+              <button   class="form-control btn btn-sm" id="sorting" value="find"></button>
+              </div> -->
+
+            </div>
+
+          </div>
+        <div class="ui relaxed divided listcontainer">
+
+          <div class="table-responsive sm md lg xl">
+
+          <div class="ui divider"></div>
+          {{#if hasItem}}
+
+          <table class="table table-hover table-border" id="dvData" name="MyIssuetable">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">StartTime</th>
+                      <th scope="col">Client & Activité</th>
+                      <th scope="col">Titre</th>
+                      <th scope="col">BizImpact</th>
+                      <th scope="col">Durée</th>
+                      <th scope="col">Tickets</th>
+                      <th scope="col">Nbre agents</th>
+                      <th scope="col">Origine</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  {{#transition in="zoomIn:500" out="bounceOut:2000"}}
+                  {{#each listIncidents}}
+                  <tbody>
+
+                  <!--  -->
+                  <tr>
+                    <td scope="row">{{@index}}</td>
+                    <td scope="row">{{humanReadableDate createdAt}}</td>
+                    <td scope="row">{{client}}&nbsp;|&nbsp;{{projetImpacte}}</td>
+                    <td scope="row">{{title}}</td>
+                    <td scope="row">{{description}}</td>
+                    <td scope="row"><label for="duration">{{rangetime}}</label></td>
+                    <td scope="row">{{tickets.[0].Id1}}<br>{{tickets.[0].Id2}}</td>
+                    <td scope="row"><span class="badge badge-pill">{{nbreagents}}</span></td>
+                    <td scope="row">{{perimetre}}</td>
+                    <td scope="row">
+
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="{{pathFor route='updateIncident'}}" role=button class="btn btn-primary" data-tooltip="update issue info" data-position="top center"><span class="glyphicon glyphicon-edit"></span></a>
+
+                    {{#if isInRole 'admin'}}
+                  <a href="#" class="btn btn-danger btn-xs suppIssue " {{disableIfbasic _id}} data-inverted="" data-tooltip="delete issue" data-position="left center"><span class="glyphicon glyphicon-remove"></span></a>
+                    {{/if}}
+                    </div>
+                    </td>
+                  </tr>
+
+                </tbody>
+                  {{/each}}
+                  {{/transition}}
+              </table>
+
+              {{else}}
+               <div class=" alert alert-danger" role="alert">
+                 Sorry,no matching results..!
+               </div>
+
+            {{/if}}
+            <div class="export">
+              <!-- <button   href="#"  type="button" id="issueExpbtn" class="ui button export default ">Export Table to Excel</button> -->
+              <button type="button" class="btn btn-secondary" id="btnExport" value=" Export Table data into Excel " >Export Xls</button>
+              <button id="csvExport" class="btn btn-secondary" onclick="javascript:xport.toCSV('dvData');"> Export to CSV</button>
+
+            </div>
+              <!-- modal end  -->
+            </div>
+          <!-- modal start -->
+
+          <!-- old layout start-->
+
+          <!-- old layout end-->
+
+
+        </div>
+        <section class="row-section">
+          <!-- <nav aria-label="...">
+					 <ul class="pager">
+					   <li class="previous"><a href="#">Previous</a></li>
+					   <li class="next"><a href="#">Next</a></li>
+					 </ul>
+					</nav> -->
+
+        </section>
+        <section class="filter">
+
+          <div  class="nav-link menu" id="idChoixFiltrage">
+          <div class="item right">
+
+              <a href="#" class="nav-link" id="idChoixFiltrage" ><h4>Filtres prédéfinis</h4></a>
+
+          </div>
+          <div class="item left">
+            <nav class="nav nav-pills justify-content-center">
+            <button id="issbymth" type="button" class="ui button" tabindex="0"><span class="babdge badge-pill">issueByMonth</span></button>
+            <button id="issbyqtr" type="button" class="ui button" tabindex="0"><span class="babdge badge-pill">issueByQuarter</span></button>
+            <button id="issbysem" type="button" class="ui button" tabindex="0"><span class="babdge badge-pill">issueBySemester</span></button>
+            </nav>
+          </div>
+          </div>
+          <section>
+            {{> Template.dynamic template=curTemplate}}
+          </section>
+
+
+        </section>
+        <hr>
+        <section class="searchresults">
+
+          <div class="modal fade"  id="newIssue" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg"  role="document">
+                          <div class="modal-content" >
+                            <div class="modal-header" style="background-color:#ff5ed7">
+                              <h5 class="modal-title" id="exampleModalLabel">Créer un nouvel incident</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="ui form container">
+                                {{#autoForm collection="Incidents" id="CreateIncidentForm"
+                                  type="insert" class="container"
+                                  meteormethod="addIncident" omitFields="Solution,createdBy, lastUpdate, createdAt"}}
+                                  {{> afQuickField name='title'}}
+                                  {{> afQuickField name='description'}}
+                                  {{>afQuickField  name='perimetre'}}
+                                  {{> afFieldInput name='startTime' type="datetime-local"}}
+
+                                  {{> afQuickField name='client' rows=2}}
+                                  {{> afQuickField name='projetImpacte' row=2}}
+                                  {{> afQuickField name='nbreagents'}}
+                                  {{> afQuickField name='statut' row=2}}
+                                  {{> afQuickField name='tickets'}}
+                                  <button class="btn btn-lg btn-primary btn-block"
+                                  type="submit">Create</button>
+                                {{/autoForm}}
+
+                                <!-- {{> quickForm collection="Incidents" id="CreateIncidentForm" method="addIncident"
+                                type="insert" omitFields="createdBy, lastUpdate, createdAt" buttonContent="Create"}} -->
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                          </div>
+                        </div>
+              </div>
+
+        </section>
+
+<!-- </div> -->
+<script>
+
+</script>
+<script type="text/javascript">
+  $("#btnExport").click(function (e) {
+    alert('Hi dude!Did you correctly select your data ?');
+    //getting values of current time for generating the file name
+    var dt = new Date();
+    var day = dt.getDate();
+    var month = dt.getMonth() + 1;
+    var year = dt.getFullYear();
+    var hour = dt.getHours();
+    var mins = dt.getMinutes();
+    var postfix = day + "." + month + "." + year + "_" + hour + "." + mins;
+    //creating a temporary HTML link element (they support setting file names)
+    var a = document.createElement('a');
+    //getting data from our div that contains the HTML table
+    var data_type = 'data:application/vnd.ms-excel;charset=utf-8';
+
+    var table_html = $('#dvData')[0].outerHTML;
+//    table_html = table_html.replace(/ /g, '%20');
+    table_html = table_html.replace(/<tfoot[\s\S.]*tfoot>/gmi, '');
+
+    var css_html = '<style>td {border: 0.5pt solid #c0c0c0} .tRight { text-align:right} .tLeft { text-align:left} </style>';
+//    css_html = css_html.replace(/ /g, '%20');
+
+    a.href = data_type + ',' + encodeURIComponent('<html><head>' + css_html + '</' + 'head><body>' + table_html + '</body></html>');
+
+    //setting the file name
+    a.download = 'exported_table_' + postfix + '.xls';
+    //triggering the function
+    alert('okii , go on!','info');
+    a.click();
+    //just in case, prevent default behaviour
+    e.preventDefault();
+});
+
+  var xport = {
+    _fallbacktoCSV: true,
+
+    toCSV: function(tableId, filename) {
+     this._filename = (typeof filename === 'undefined') ? tableId : filename;
+     // Generate our CSV string from out HTML Table
+     var csv = this._tableToCSV(document.getElementById(tableId));
+     // Create a CSV Blob
+     var blob = new Blob([csv], { type: "text/csv" });
+
+     // Determine which approach to take for the download
+     if (navigator.msSaveOrOpenBlob) {
+       // Works for Internet Explorer and Microsoft Edge
+       navigator.msSaveOrOpenBlob(blob, this._filename + ".csv");
+     } else {
+       this._downloadAnchor(URL.createObjectURL(blob), 'csv');
+     }
+    },
+
+    _getMsieVersion: function() {
+     var ua = window.navigator.userAgent;
+
+     var msie = ua.indexOf("MSIE ");
+     if (msie > 0) {
+       // IE 10 or older => return version number
+       return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
+     }
+
+     var trident = ua.indexOf("Trident/");
+     if (trident > 0) {
+       // IE 11 => return version number
+       var rv = ua.indexOf("rv:");
+       return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
+     }
+
+     var edge = ua.indexOf("Edge/");
+     if (edge > 0) {
+       // Edge (IE 12+) => return version number
+       return parseInt(ua.substring(edge + 5, ua.indexOf(".", edge)), 10);
+     }
+
+     // other browser
+     return false;
+    },
+    _isFirefox: function(){
+     if (navigator.userAgent.indexOf("Firefox") > 0) {
+       return 1;
+     }
+
+     return 0;
+    },
+    _downloadAnchor: function(content, ext) {
+       var anchor = document.createElement("a");
+       anchor.style = "display:none !important";
+       anchor.id = "downloadanchor";
+       document.body.appendChild(anchor);
+
+       // If the [download] attribute is supported, try to use it
+
+       if ("download" in anchor) {
+         anchor.download = this._filename + "." + ext;
+       }
+       anchor.href = content;
+       anchor.click();
+       anchor.remove();
+    },
+    _tableToCSV: function(table) {
+     // We'll be co-opting `slice` to create arrays
+     var slice = Array.prototype.slice;
+
+     return slice
+       .call(table.rows)
+       .map(function(row) {
+         return slice
+           .call(row.cells)
+           .map(function(cell) {
+             return '"t"'.replace("t", cell.textContent);
+           })
+           .join(",");
+       })
+       .join("\r\n");
+      }
+};
+</script>
+
+
+
+</template>
+<template name="navshapes">
+<nav class="nav nav-pills justify-content-center">
+<button id="issbymth" type="button" class="ui button" tabindex="0"><span class="babdge badge-pill">Mois</span></button>
+<button id="issbyqtr" type="button" class="ui button" tabindex="0"><span class="babdge badge-pill">Trimestre</span></button>
+<button id="issbysem" type="button" class="ui button" tabindex="0"><span class="babdge badge-pill">Semestre</span></button>
+</nav>
+</template>
+<!-- <div class="item">
+// $("#issueExpbtn").click(function () {
+//          $("#MyIssuetable").battatech_excelexport({
+//           containerid: "MyIssuetable"
+//        , datatype: 'table'
+//      });
+//  });
+
+testTable
+  <i class="large github middle aligned icon"></i>
+  <img class="ui avatar image" src="/images/avatar2/small/rachel.png">
+  <div class="content">
+    <a class="header">{{title}}</a>
+
+    <div class="description">{{description}}</div>
+  </div>
+  <div class="right floated content">
+    <h4><span class="badge badge-pill  {{badgeColor}}">{{statut}}</span></h4>
+    </div>
+  <div class="right floated content">
+    <button  type="button" class="btn btn-default btn-sm issuedetails" data-toggle="modal"   data-target="#{{this._id}}">Details</button>
+  </div>
+  <div class="modal fade bd-example-modal-lg" id="{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="details" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Details sur  l'incident</h5>:{{Acronyme client}}{{cltname}}
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="ui form container">
+            <table class="table table-hover">
+                    <thead class="thead-pink">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td colspan="2">Larry the Bird</td>
+                        <td>@twitter</td>
+                      </tr>
+                    </tbody>
+                  </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div> -->

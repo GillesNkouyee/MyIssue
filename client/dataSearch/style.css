@@ -1,0 +1,78 @@
+/* .sideMenu {
+	position: fixed;
+	width: 350px;
+	min-width: 250px;
+	background-color: #FCE4EC;          /* A ENLEVER DANS MA DERNIERE VERSION */
+	/*border-right: 1px solid #F8BBD0;    /* A ENLEVER DANS MA DERNIERE VERSION */
+/*} */
+
+.card {
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 34, 51, 0.1);
+    box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
+    border-radius: 0.15rem;
+}
+
+/* Tabs Card */
+
+.tab-card {
+  border:1px solid #eee;
+}
+
+.tab-card-header {
+  background:none;
+}
+/* Default mode */
+.tab-card-header > .nav-tabs {
+  border: none;
+  margin: 0px;
+}
+.tab-card-header > .nav-tabs > li {
+  margin-right: 2px;
+}
+.tab-card-header > .nav-tabs > li > a {
+  border: 0;
+  border-bottom:2px solid transparent;
+  margin-right: 0;
+  color: #737373;
+  padding: 2px 15px;
+}
+
+.tab-card-header > .nav-tabs > li > a.show {
+    border-bottom:2px solid #007bff;
+    color: #007bff;
+}
+.tab-card-header > .nav-tabs > li > a:hover {
+    color: #007bff;
+}
+
+.tab-card-header > .tab-content {
+  padding-bottom: 0;
+}
+/***************************************************************/
+#idNomMyCV {
+	width: 30px;
+	float: left;
+	margin-top: 0px;
+	margin-left: 20px;
+	/* font-size: 20px; */
+	color: white;
+	font-family: "Segoe Print";
+
+  /***************************************************************
+				                  Style des titres de pages
+			***************************************************************/
+}
+/* .pageTitle a,h2 {
+  color:#a50943;
+  font-family: "Segoe Print";
+
+} */
+#idNomMyDir {
+	width: 60px;
+	float: left;
+	margin-top: 0px;
+	margin-left: 20px;
+	font-size: 30px;
+	color: pink;
+	font-family: "Segoe Print";}

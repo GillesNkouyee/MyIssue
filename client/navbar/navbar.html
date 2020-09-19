@@ -1,0 +1,77 @@
+<template name="Navbar">
+  <!-- <div class="wrapper"> -->
+<!-- {{#if currentUser}} -->
+
+<!--  -->
+<div class="ui fixed inverted stackable pointing menu">
+
+  <a href="/" class="header item" id="idNomMyCV" onclick="javascript:window.open(this.href); return(false);">My Issues</a>
+  {{#if currentUser}}
+    <div class="ui simple dropdown item right">
+      <!-- <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+          {{name}}<img src="/images/account6.jpg" width="25" height="25" alt="Photo du Profil">
+        </button> -->
+        <img src="{{profilepic}}" class ="img-circle" alt="..." width="45" height="40">
+      <button class="btn btn-primary dropdown-toggle"  data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                {{name}}
+      </button>
+      <div class="menu" style="background-color: #F5EEF8">
+        <a href="{{pathFor route='Profile'}}" class="item"><i class="user icon"></i> User Profile</a>
+        {{#if isInRole 'admin,manager'}}
+        <a href="{{pathFor route='userCtrlpanel'}}" class="item"><i class="users icon"></i> Users Control Panel</a>
+        {{/if}}
+        <a href="/" class="item" id="logout"><i class="caret right icon"></i>Log Out</a>
+
+      </div>
+    </div>
+            {{else}}
+                      {{>loginDropDown align="left"}}
+            {{/ if}}
+
+</div>
+
+<div id="idSideMenu" class="sideMenu ">
+  <!-- <div class="heading">
+    <img src="{{profilepic}}" class ="img-circle" alt="...">
+    <div class="info">
+      <h3><a href="#"></a>{{name}}</h3>
+    </div>
+  </div> -->
+  <div class="ui secondary vertical menu" id="mySubmenu">
+    <a href="{{pathFor route='dashboardview'}}" class="item nav-link">Dashboard<span class="sr-only">(current)</span><i class="list icon"></i></a>
+    <a href="{{pathFor route='searchIncident'}}" class="item nav-link"><i class="search icon"></i>Search</a>
+    <!-- <a href="{{pathFor route='createIncident'}}" class="item"><i class="edit outline icon"></i> Add Issue</a> -->
+
+    {{#if isInRole 'admin'}}
+    <a href="{{pathFor route='editsite'}}" class="item nav-link"><i class="database icon"></i>Admin</a>
+    {{/if}}
+
+    {{#if currentUser}}
+          <a class="item" href="#">Change your password:{{> loginButtons}}</a>
+
+
+   {{/ if}}
+  </div>
+
+
+</div>
+
+<!-- {{/if}} -->
+<!-- </div> -->
+<script type="text/javascript">
+    // $(document).ready(function () {
+    //
+    //   $('#mySubmenu').on('click', function () {
+    //       $('.item').toggleClass('active');
+    //   });
+    //
+    // });
+</script>
+</template>
+<template name="loginDropDown">
+
+
+  <a class=" item right" href="{{pathFor route='login'}}">
+    Sign In
+  </a>
+</template>
